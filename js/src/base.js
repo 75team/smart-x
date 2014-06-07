@@ -11,17 +11,24 @@
 	}
 	
 	if(typeof navigator == 'undefined'){
-		global.navigator = cc.navigator;
+		if(cc.navigator){
+			global.navigator = cc.navigator;
+		}else{
+			global.navigator = {};
+			navigator.userAgent = "Cocos2dx Mac OSX";
+		}
 	}
-
+	
+	var isOSX = navigator.userAgent.indexOf('Mac OSX') >= 0;
 	var isHtml5 = navigator.userAgent.indexOf('Cocos2dx') < 0;
 	var isAndroid = navigator.userAgent.indexOf('Android') >= 0;
 	var isIOS = navigator.userAgent.indexOf('iOS') >= 0;	
 	
+	cc.isOSX = isOSX;
 	cc.isHtml5 = isHtml5;
 	cc.isAndroid = isAndroid;
 	cc.isIOS = isIOS;
-	cc.isOpenGL = isIOS || isAndroid || cc.sys.capabilities.opengl;	
+	cc.isOpenGL = cc.sys.capabilities.opengl;	
 	
 	if(!cc.isOpenGL){
 		cc.TransitionCrossFade = cc.TransitionFadeBL = cc.TransitionFadeTR = cc.TransitionFade;
@@ -513,7 +520,7 @@
 		cc.Sprite.prototype.setGLProgram = cc.Sprite.prototype.setShaderProgram;
 	}
 	
-	if(cc.isOpenGL && !cc.gray){
+	if(cc.isOpenGL && !isOSX && !cc.gray){
 		if(!cc.GLProgram.createWithByteArrays){
 			cc.GLProgram.createWithByteArrays = function(vert, frag){
 				var shader = cc.GLProgram.create();  
@@ -571,10 +578,10 @@
 		}
 	}else{
 		cc.gray = function(){
-			cc.log('Do not support shader in canvas mode.');
+			cc.log('Do not support shader in this display mode.');
 		};
 		cc.ungray = function(){
-			cc.log('Do not support shader in canvas mode.');
+			cc.log('Do not support shader in this display mode.');
 		};
 	}
 })(this);
