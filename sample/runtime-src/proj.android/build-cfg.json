@@ -1,0 +1,46 @@
+{
+    "ndk_module_path" :[
+        "../../js-bindings",
+        "../../js-bindings/cocos2d-x",
+        "../../js-bindings/cocos2d-x/cocos",
+        "../../js-bindings/cocos2d-x/external"
+    ],
+    "copy_resources": [
+        {
+            "from": "../../../src",
+            "to": "src",
+             "exclude": [
+                "*.gz"
+            ]
+        },
+        {
+            "from": "../../../res",
+            "to": "res",
+            "exclude": [
+                "*.gz"
+            ]
+        },
+        {
+            "from": "../../../main.js",
+            "to": ""
+        }
+    ],
+    "must_copy_resources": [
+        {
+            "from": "../../js-bindings/bindings/script",
+            "to": ""
+        },
+        {
+            "from": "../../../runtime/rtres",
+            "to": "rtres"
+        },
+        {
+            "from": "../../../config.json",
+            "to": ""
+        },
+        {
+            "from": "../../../project.json",
+            "to": ""
+        } 
+    ]
+}
