@@ -366,6 +366,18 @@
 				});
 			}
 		},
+		anchor: {
+			get: function(node){
+				return cc.p(node.anchorX, node.anchorY);
+			},
+			set: function(node, value){
+				value = cc.makePoint2D(value);
+				node.attr({
+					anchorX: value.x,
+					anchorY: value.y
+				});
+			}
+		},
 		size: {
 			get: function(node){
 				return cc.size(node.width, node.height);
@@ -422,7 +434,7 @@
 				if(node instanceof cc.Layer && size.width == 0 && size.height == 0){
 					size = cc.director.getWinSize();
 				}
-				if(cc.isColorString(value)){
+				if(!isString(value) || cc.isColorString(value)){
 					value = cc.color(value);
 					var colorLayer = cc.LayerColor.create(value);
 					colorLayer.setTag(-1);

@@ -295,4 +295,8 @@
 		cc.eventManager.resumeTarget(this);
 	};
 	
+	cc.Layer.prototype.getExtras = function(){
+		return cc.director.getRunningScene().__extraData;
+	};
+	
 })(this);

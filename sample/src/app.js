@@ -103,7 +103,7 @@ var HelloWorldLayer = cc.Layer.extend({
         .repeat()
         .spawn();
         
-        bird.moveBy(0.5, cc.p(50,50)).reverse().delay(1.0).repeat().act();
+        bird.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse().delay(1.0).repeat().act();
         //this.sprite.runAction(cc.animationCache.get('birdAction').getAction().clone());
         //cc.showMessage(this, 'abc!!');
 
@@ -155,8 +155,10 @@ var HelloWorldLayer = cc.Layer.extend({
         
         this.delegate(bird, {
         	click: function(event, target, layer){
-        		cc.log(event);
+        		//cc.log(event);
         		//layer.pauseEvent();
+                var scene = new TestPageViewScene();
+                cc.director.pushScene(scene);
         	},
         	'mouseenter, mouseleave': function(event, target, layer){
         		cc.log(event.type);
@@ -178,6 +180,9 @@ var HelloWorldLayer = cc.Layer.extend({
         	cc.log(err);
         });
         
+        var p = cc.p({x:1, y:2}, undefined);
+        cc.log([p.x, p.y])
+        
         return true;
     },
     backClicked: function(){
@@ -187,6 +192,10 @@ var HelloWorldLayer = cc.Layer.extend({
 });
 
 var HelloWorldScene = cc.Scene.extend({
+	ctor: function(){
+		this.autoReload = true;
+    	this._super();
+	},
     onEnter:function () {
         this._super();
         var layer = new HelloWorldLayer();

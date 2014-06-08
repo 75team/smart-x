@@ -57,23 +57,23 @@
 					}
 				});
 			}
-		}
-	});
 
-	Object.defineProperty(Button.prototype, 'disabled', {
-		get: function(){
-			return !this._enabled;
-		},
-		set: function(disabled){
-			this._enabled = !disabled;
-			if(disabled){
-				cc.gray(this);
-			}else{
-				cc.ungray(this);
-			}
-		},
-		enumerable: true,
-		configurable: false,
+			Object.defineProperty(this, 'disabled', {
+				get: function(){
+					return !this._enabled;
+				},
+				set: function(disabled){
+					this._enabled = !disabled;
+					if(disabled){
+						cc.gray(this);
+					}else{
+						cc.ungray(this);
+					}
+				},
+				enumerable: true,
+				configurable: false,
+			});
+		}
 	});
 	
 	Button.create = function(texture, style){

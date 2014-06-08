@@ -10,6 +10,8 @@ var g_resources = [
     res.CloseNormal_png,
     res.CloseSelected_png,
     'res/birds.png',
+    'res/ortho-test1.png',
+    'res/tiles/tai_1.png',
 
     //plist
     'res/birds.plist',
@@ -17,9 +19,11 @@ var g_resources = [
     //fnt
 
     //tmx
+    'res/test.tmx',
+    'res/test.json',
 
     //bgm
     'res/game_music.mp3',
     //effect
-    'res/ready.mp3'
+    'res/ready.mp3',
 ];

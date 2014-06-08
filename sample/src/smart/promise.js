@@ -1,4 +1,4 @@
-(function() {
+(function(global) {
 	var define, requireModule, require, requirejs;
 
 	(function() {
@@ -694,4 +694,4 @@
 	cc.Defer.create = function(){
 		return new cc.Defer();
 	};
-}());
+}(this));

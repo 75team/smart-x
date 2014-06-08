@@ -8,15 +8,6 @@
 	function Animation(){
 		
 	}
-
-	Object.defineProperty(Animation.prototype, '__actions', {
-		get: function(){
-			this.__inner_actions = this.__inner_actions || [];
-			return this.__inner_actions;
-		},
-		enumerable: true,
-		configurable: false,
-	});
 	
 	var getAnimFrames = function(name, startIndex, endIndex) {
 		var frames = [],
@@ -58,12 +49,19 @@
 	};
 	
 	cc.mixin(Animation.prototype, {
+		getActionList: function(){
+			this.__actions = this.__actions || [];
+			return this.__actions;
+		},
 		getAction: function(){
-			if(this.__actions.length > 0){
+			this.__spawn = this.__spawn || [];
+			if(this.getActionList().length > 0){
 				this.spawn();
 			}
-			if(this.__spawn.length > 0){
+			if(this.__spawn.length > 1){
 				return cc.Spawn.create.apply(cc.Spawn, this.__spawn);
+			}else if(this.__spawn.length == 1){
+				return this.__spawn[0];
 			}
 		},
 		addAction: function(actionCls, args, easing, rate){
@@ -94,8 +92,8 @@
 				//cc.log(i, easingArgs);
 				actions[0] = easing.create.apply(easing, [actions[0]].concat(easingArgs));
 			}
-			
-			this.__actions.push.apply(this.__actions, actions);
+			var actionSeq = this.getActionList();
+			actionSeq.push.apply(actionSeq, actions);
 			return this;
 		},	
 		delay: function(time){
@@ -108,7 +106,7 @@
 		repeat: function(times, fromWhere){
 			times = times || 9999999;
 			fromWhere = fromWhere || 0;
-			var actionSeq = this.__actions;
+			var actionSeq = this.getActionList();
 			if(actionSeq.length > 0){
 				var action = cc.Sequence.create.apply(cc.Sequence, actionSeq.slice(-fromWhere));
 				action = cc.Repeat.create(action, times);
@@ -119,7 +117,7 @@
 			return this;        
 		},
 		reverse: function(){
-			var actionSeq = this.__actions;
+			var actionSeq = this.getActionList();
 			if(actionSeq.length > 0){
 				var action = actionSeq[actionSeq.length - 1];
 				actionSeq.push(action.reverse());
@@ -127,7 +125,7 @@
 			return this;
 		},
 		reverseAll: function(){
-			var actionSeq = this.__actions;
+			var actionSeq = this.getActionList();
 			if(actionSeq.length > 0){
 				var action = cc.Sequence.create.apply(cc.Sequence, actionSeq);
 				actionSeq.push(action.reverse());
@@ -136,7 +134,7 @@
 		},
 		then: function(callback){
 			callback = cc.CallFunc.create(callback, this);
-			this.__actions.push(callback);            
+			this.getActionList().push(callback);            
 			return this;
 		},
 		bezierBy: function(dur, conf, easing, rate){
@@ -210,15 +208,19 @@
 			}
 
 			var animation = cc.Animation.create(frames, dur/frames.length);
-			this.__actions.push(cc.Animate.create(animation));
+			this.getActionList().push(cc.Animate.create(animation));
 			return this;			
 		},
 		spawn: function(){
 			this.__spawn = this.__spawn || [];
-			if(this.__actions.length > 0){
-				var action = cc.Sequence.create.apply(cc.Sequence, this.__actions);
+			var actionSeq = this.getActionList();
+			if(actionSeq.length > 0){
+				var action = actionSeq[0];
+				if(actionSeq.length > 1){
+					action = cc.Sequence.create.apply(cc.Sequence, actionSeq);
+				}
 				this.__spawn.push(action);
-				this.__actions.length = 0;
+				actionSeq.length = 0;
 			}
 		}
 	});
@@ -234,13 +236,13 @@
 		}
 	};
 	
-	cc.mixin(cc.Sprite.prototype, new Animation);
+	cc.mixin(cc.Node.prototype, new Animation);
 	
-	cc.Sprite.prototype.act = function(){
+	cc.Node.prototype.act = function(){
 		var action = this.getAction();
 		if(action){
 			this.runAction(action);
-			this.__actions.length = 0;
+			this.getActionList().length = 0;
 			this.__spawn.length = 0;
 		}
 	}
