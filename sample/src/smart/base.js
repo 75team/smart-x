@@ -236,6 +236,14 @@
 		return colorPattern.test(colorStr);
 	};
 	
+	if(!isHtml5){
+		var _color = cc.color;
+		cc.color = function(){
+			var color = _color.apply(cc, arguments);
+			if(color.a == null) color.a = 255;
+			return color;
+		}
+	}
 	var _hexToColor = cc.hexToColor;
 	cc.hexToColor = function(str){
 		str = str.trim();
@@ -431,6 +439,7 @@
 					oldBg.removeFromParent(true);
 				}
 				var size = node.attr('size');
+
 				if(node instanceof cc.Layer && size.width == 0 && size.height == 0){
 					size = cc.director.getWinSize();
 				}
@@ -532,7 +541,7 @@
 		cc.Sprite.prototype.setGLProgram = cc.Sprite.prototype.setShaderProgram;
 	}
 	
-	if(cc.isOpenGL && !isOSX && !cc.gray){
+	if(cc.isOpenGL && !cc.gray){
 		if(!cc.GLProgram.createWithByteArrays){
 			cc.GLProgram.createWithByteArrays = function(vert, frag){
 				var shader = cc.GLProgram.create();  

@@ -32,8 +32,7 @@ if(!cc.isHtml5){
  * @type {String}
  */
 cc.SHADER_POSITION_UCOLOR_FRAG =
-	"precision lowp float;\n"
-	+ "varying vec4 v_fragmentColor;\n"
+	"varying vec4 v_fragmentColor;\n"
 	+ "void main()                              \n"
 	+ "{ \n"
 	+ "    gl_FragColor = v_fragmentColor;      \n"
@@ -44,9 +43,9 @@ cc.SHADER_POSITION_UCOLOR_FRAG =
  */
 cc.SHADER_POSITION_UCOLOR_VERT =
 	"attribute vec4 a_position;\n"
-	+ "uniform    vec4 u_color;\n"
-	+ "uniform float u_pointSize;\n"
-	+ "varying lowp vec4 v_fragmentColor; \n"
+	+ "uniform vec4 u_color;\n"
+	+ "uniform u_pointSize;\n"
+	+ "varying vec4 v_fragmentColor; \n"
 	+ "void main(void)   \n"
 	+ "{\n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -61,8 +60,7 @@ cc.SHADER_POSITION_UCOLOR_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_COLOR_FRAG =
-	"precision lowp float; \n"
-	+ "varying vec4 v_fragmentColor; \n"
+	"varying vec4 v_fragmentColor; \n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "     gl_FragColor = v_fragmentColor; \n"
@@ -75,7 +73,7 @@ cc.SHADER_POSITION_COLOR_FRAG =
 cc.SHADER_POSITION_COLOR_VERT =
 	"attribute vec4 a_position;\n"
 	+ "attribute vec4 a_color;\n"
-	+ "varying lowp vec4 v_fragmentColor;\n"
+	+ "varying vec4 v_fragmentColor;\n"
 	+ "void main()\n"
 	+ "{\n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -90,8 +88,8 @@ cc.SHADER_POSITION_COLOR_VERT =
  */
 cc.SHADER_POSITION_COLOR_LENGTH_TEXTURE_FRAG =
 	"// #extension GL_OES_standard_derivatives : enable\n"
-	+ "varying mediump vec4 v_color;\n"
-	+ "varying mediump vec2 v_texcoord;\n"
+	+ "varying vec4 v_color;\n"
+	+ "varying vec2 v_texcoord;\n"
 	+ "void main()	\n"
 	+ "{ \n"
 	+ "// #if defined GL_OES_standard_derivatives	\n"
@@ -106,11 +104,11 @@ cc.SHADER_POSITION_COLOR_LENGTH_TEXTURE_FRAG =
  * @type {String}
  */
 cc.SHADER_POSITION_COLOR_LENGTH_TEXTURE_VERT =
-	"attribute mediump vec4 a_position; \n"
-	+ "attribute mediump vec2 a_texcoord; \n"
-	+ "attribute mediump vec4 a_color;	\n"
-	+ "varying mediump vec4 v_color; \n"
-	+ "varying mediump vec2 v_texcoord;	\n"
+	"attribute vec4 a_position; \n"
+	+ "attribute vec2 a_texcoord; \n"
+	+ "attribute vec4 a_color;	\n"
+	+ "varying vec4 v_color; \n"
+	+ "varying vec2 v_texcoord;	\n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "     v_color = a_color;//vec4(a_color.rgb * a_color.a, a_color.a); \n"
@@ -125,8 +123,7 @@ cc.SHADER_POSITION_COLOR_LENGTH_TEXTURE_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_TEXTURE_FRAG =
-	"precision lowp float;   \n"
-	+ "varying vec2 v_texCoord;  \n"
+	"varying vec2 v_texCoord;  \n"
 	//+ "uniform sampler2D CC_Texture0; \n"
 	+ "void main() \n"
 	+ "{  \n"
@@ -140,7 +137,7 @@ cc.SHADER_POSITION_TEXTURE_FRAG =
 cc.SHADER_POSITION_TEXTURE_VERT =
 	"attribute vec4 a_position; \n"
 	+ "attribute vec2 a_texCoord; \n"
-	+ "varying mediump vec2 v_texCoord; \n"
+	+ "varying vec2 v_texCoord; \n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -154,8 +151,7 @@ cc.SHADER_POSITION_TEXTURE_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_TEXTURE_UCOLOR_FRAG =
-	"precision lowp float;  \n"
-	+ "uniform vec4 u_color; \n"
+	"uniform vec4 u_color; \n"
 	+ "varying vec2 v_texCoord; \n"
 	//+ "uniform sampler2D CC_Texture0;  \n"
 	+ "void main() \n"
@@ -170,7 +166,7 @@ cc.SHADER_POSITION_TEXTURE_UCOLOR_FRAG =
 cc.SHADER_POSITION_TEXTURE_UCOLOR_VERT =
 	"attribute vec4 a_position;\n"
 	+ "attribute vec2 a_texCoord; \n"
-	+ "varying mediump vec2 v_texCoord; \n"
+	+ "varying vec2 v_texCoord; \n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -184,8 +180,7 @@ cc.SHADER_POSITION_TEXTURE_UCOLOR_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_TEXTURE_A8COLOR_FRAG =
-	"precision lowp float;  \n"
-	+ "varying vec4 v_fragmentColor; \n"
+	"varying vec4 v_fragmentColor; \n"
 	+ "varying vec2 v_texCoord; \n"
 	//+ "uniform sampler2D CC_Texture0; \n"
 	+ "void main() \n"
@@ -203,8 +198,8 @@ cc.SHADER_POSITION_TEXTURE_A8COLOR_VERT =
 	"attribute vec4 a_position; \n"
 	+ "attribute vec2 a_texCoord; \n"
 	+ "attribute vec4 a_color;  \n"
-	+ "varying lowp vec4 v_fragmentColor; \n"
-	+ "varying mediump vec2 v_texCoord; \n"
+	+ "varying vec4 v_fragmentColor; \n"
+	+ "varying vec2 v_texCoord; \n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -219,8 +214,7 @@ cc.SHADER_POSITION_TEXTURE_A8COLOR_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_TEXTURE_COLOR_FRAG =
-	"precision lowp float;\n"
-	+ "varying vec4 v_fragmentColor; \n"
+	"varying vec4 v_fragmentColor; \n"
 	+ "varying vec2 v_texCoord; \n"
 	//+ "uniform sampler2D CC_Texture0; \n"
 	+ "void main() \n"
@@ -236,8 +230,8 @@ cc.SHADER_POSITION_TEXTURE_COLOR_VERT =
 	"attribute vec4 a_position; \n"
 	+ "attribute vec2 a_texCoord; \n"
 	+ "attribute vec4 a_color;  \n"
-	+ "varying lowp vec4 v_fragmentColor; \n"
-	+ "varying mediump vec2 v_texCoord; \n"
+	+ "varying vec4 v_fragmentColor; \n"
+	+ "varying vec2 v_texCoord; \n"
 	+ "void main() \n"
 	+ "{ \n"
 	+ "    gl_Position = CC_PMatrix * a_position;  \n"
@@ -252,8 +246,7 @@ cc.SHADER_POSITION_TEXTURE_COLOR_VERT =
  * @type {String}
  */
 cc.SHADER_POSITION_TEXTURE_COLOR_ALPHATEST_FRAG =
-	"precision lowp float;   \n"
-	+ "varying vec4 v_fragmentColor; \n"
+	"varying vec4 v_fragmentColor; \n"
 	+ "varying vec2 v_texCoord;   \n"
 	//+ "uniform sampler2D CC_Texture0; \n"
 	+ "uniform float CC_alpha_value; \n"
@@ -273,8 +266,7 @@ cc.SHADER_POSITION_TEXTURE_COLOR_ALPHATEST_FRAG =
  * @type {String}
  */
 cc.SHADEREX_SWITCHMASK_FRAG =
-	"precision lowp float; \n"
-	+ "varying vec4 v_fragmentColor; \n"
+	"varying vec4 v_fragmentColor; \n"
 	+ "varying vec2 v_texCoord; \n"
 	+ "uniform sampler2D u_texture;  \n"
 	+ "uniform sampler2D   u_mask;   \n"
