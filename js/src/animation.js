@@ -1,7 +1,7 @@
 (function(global){
 	'use strict';
 	
-	var _animationCache = {
+	var _actionCache = {
 			
 	};
 	
@@ -225,14 +225,14 @@
 		}
 	});
 	
-	cc.animationCache = {
+	cc.actionCache = {
 		add: function(key){
-			cc.assert(!(key in _animationCache), "animation " + key + " already exists!");
-			_animationCache[key] = new Animation;
-			return _animationCache[key];
+			cc.assert(!(key in _actionCache), "animation " + key + " already exists!");
+			_actionCache[key] = new Animation;
+			return _actionCache[key];
 		},
 		get: function(key){
-			return _animationCache[key];
+			return _actionCache[key];
 		}
 	};
 	

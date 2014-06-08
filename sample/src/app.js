@@ -85,7 +85,7 @@ var HelloWorldLayer = cc.Layer.extend({
         
         this.addChild(bird, 10);
         
-        /*var animation = cc.animationCache.add('birdAction')
+        /*var animation = cc.actionCache.add('birdAction')
         	//.moveBy(0.5, cc.p(50,50)).reverse()
         	.animate(1.5, 'bird%d.png', 1, 3)
         	.delay(1.0)
@@ -104,7 +104,7 @@ var HelloWorldLayer = cc.Layer.extend({
         .spawn();
         
         bird.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse().delay(1.0).repeat().act();
-        //this.sprite.runAction(cc.animationCache.get('birdAction').getAction().clone());
+        //this.sprite.runAction(cc.actionCache.get('birdAction').getAction().clone());
         //cc.showMessage(this, 'abc!!');
 
         cc.game.on('hide', function(){

@@ -47,6 +47,9 @@
 
 			pageView.setPage(2);			
 			return true;
+		},
+		backClicked: function(){
+			cc.director.popScene();
 		}
 	});
 	

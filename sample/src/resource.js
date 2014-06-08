@@ -19,8 +19,8 @@ var g_resources = [
     //fnt
 
     //tmx
-    'res/test.tmx',
-    'res/test.json',
+    //'res/test.tmx',
+    //'res/test.json',
 
     //bgm
     'res/game_music.mp3',
