@@ -4,7 +4,7 @@ var HelloWorldLayer = cc.Layer.extend({
         //////////////////////////////
         // 1. super init first
         this._super();
-
+        
         /////////////////////////////
         // 2. add a menu item with "X" image, which is clicked to quit the program
         //    you may modify it.
@@ -17,12 +17,14 @@ var HelloWorldLayer = cc.Layer.extend({
         	y: 20,
         	anchorX: 0.5,
         	anchorY: 0.5,
-        	disabled: true,
+        	//disabled: true,
         	zIndex: 200,
         });
+        var self = this;
         this.addChild(closeBtn);
         this.delegate(closeBtn, 'click', function(){
-        	cc.log('button clicked');
+        	//cc.log('button clicked');
+        	self.backClicked();
         });
         
         /////////////////////////////
@@ -192,6 +194,35 @@ var HelloWorldLayer = cc.Layer.extend({
         var p = cc.p({x:1, y:2}, undefined);
         cc.log([p.x, p.y])
         
+        //cc.log(cc.loader.load);
+        
+        //cc.log(cc.LoaderScene._instance.initWith);
+        
+        for(var i = 0; i < 10; i++){
+        	var bird = cc.createSprite('bird3.png',{
+        		anchorX: 0,
+        		x: 100 + i*20,
+        		y: 200,
+        		fontSize: 44,
+        		fontFamily: 'Arial',
+        		//texture1: 'bird3.png rect(0,0,10,10)'
+        		//color: '#ff0000',
+        	});    
+        	this.addChildToBatch(bird, 'res/birds.png');
+        	
+        	var bird = cc.createSprite('res/bird2.png',{
+        		anchorX: 0,
+        		x: 100 + i*20,
+        		y: 200 + 50,
+        		fontSize: 44,
+        		fontFamily: 'Arial',
+        		//texture1: 'bird3.png rect(0,0,10,10)'
+        		//color: '#ff0000',
+        	});
+        	//this.addChild(bird);
+        	this.addChildToBatch(bird, 'res/bird2.png');
+        }
+        
         return true;
     },
     backClicked: function(){
@@ -200,7 +231,7 @@ var HelloWorldLayer = cc.Layer.extend({
     }
 });
 
-var HelloWorldScene = cc.Scene.extend({
+var DemoScene = cc.Scene.extend({
 	ctor: function(){
 		this.autoReload = true;
     	this._super();

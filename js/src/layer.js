@@ -23,12 +23,14 @@
 					//cc.log("keyCode："+keyCode);
 					if(keyCode == cc.KEY.back)
 					{
-						self.backClicked();
+						self.setTimeout(function(){
+							self.backClicked();
+						}, 300);
 					}
 				}
 			}, this);			
 		}
-		
+
 		if(this.backClicked && typeof(history) !== 'undefined'){
 			history.pushState({}, '');
 			var backClicked = function(state){
@@ -52,7 +54,25 @@
 		this.clearAllTimers();
 		return _onExit.apply(this, arguments);
 	};
-
+	
+	cc.Layer.prototype.addChildToBatch = function(node, batchName){
+		//var batchName = node.getTexture().getName();
+		var parent;
+		this.__batchNodes = this.__batchNodes || {};
+		if(this.__batchNodes[batchName]){
+			parent = this.__batchNodes[batchName];
+		}else{
+			parent = cc.SpriteBatchNode.create(batchName);
+			this.__batchNodes[batchName] = parent;
+			
+			parent.setLocalZOrder(node.getLocalZOrder());
+			parent.setGlobalZOrder(node.getGlobalZOrder());
+			
+			this.addChild(parent);
+		}
+		parent.addChild(node);
+	};
+	
 	cc.Layer.prototype.publish = function(){
 		var args = [].slice.apply(arguments);
 		this.getContext().then(function(context){

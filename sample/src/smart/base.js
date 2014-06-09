@@ -289,12 +289,12 @@
 			if(!texture){
 				texture = cc.textureCache.addImage(key);
 			}
-			if(texture && (!isHtml5 || texture._isLoaded)){
+			if(texture){
 				var size = texture.getContentSize();
 				var frame = cc.SpriteFrame.create(texture, cc.rect(0, 0, size.width, size.height));
 			}
 		}
-
+		
 		return frame;
 	}
 	
