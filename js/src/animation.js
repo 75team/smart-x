@@ -66,6 +66,14 @@
 		},
 		addAction: function(actionCls, args, easing, rate){
 			var actions;
+			
+			if(cc.isString(actionCls)){
+				actionCls = _actionCache[actionCls];
+			}
+			if(actionCls instanceof Animation){
+				actionCls = actionCls.getAction();
+			}
+			
 			if(actionCls instanceof cc.Action){
 				rate = easing;
 				easing = args;
@@ -222,8 +230,11 @@
 				this.__spawn.push(action);
 				actionSeq.length = 0;
 			}
+			return this;
 		}
 	});
+	
+	Animation.prototype.play = Animation.prototype.addAction;
 	
 	cc.actionCache = {
 		add: function(key){

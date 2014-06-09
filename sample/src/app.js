@@ -95,7 +95,14 @@ var HelloWorldLayer = cc.Layer.extend({
         	.repeat();
         bird.runAction(animation.getAction());*/
         
-        bird.animate(1.5, 'bird%d.png', 1, 3)
+        var action = cc.actionCache.add('birdFly')
+        				.animate(1.5, 'bird%d.png', 1, 3)
+        				.spawn()
+        				.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse();
+        
+        bird.play('birdFly').repeat().act();
+        
+        /*bird.animate(1.5, 'bird%d.png', 1, 3)
         .delay(1.0)
         .then(function(){
         	//cc.log('ok')
@@ -103,7 +110,8 @@ var HelloWorldLayer = cc.Layer.extend({
         .repeat()
         .spawn();
         
-        bird.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse().delay(1.0).repeat().act();
+        bird.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse().delay(1.0).repeat().act();*/
+        
         //this.sprite.runAction(cc.actionCache.get('birdAction').getAction().clone());
         //cc.showMessage(this, 'abc!!');
 
@@ -155,10 +163,10 @@ var HelloWorldLayer = cc.Layer.extend({
         
         this.delegate(bird, {
         	click: function(event, target, layer){
-        		cc.log(event);
+        		//cc.log(event);
         		//layer.pauseEvent();
-                //var scene = new TestPageViewScene();
-                //cc.director.pushScene(scene);
+                var scene = new TestPageViewScene();
+                cc.director.pushScene(scene);
         	},
         	'mouseenter, mouseleave': function(event, target, layer){
         		cc.log(event.type);
