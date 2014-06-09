@@ -21,10 +21,13 @@
 </head>
 <body style="padding:0; margin: 0; background: #000;">
 <canvas id="gameCanvas" width="800" height="480"></canvas>
-<script src="dist/cocos2d-html5.js"></script>
-<script src="dist/cocos2d-html5-v3.0.smart.min.js"></script>
+<script src="dist/cocos2d-html5-min.js"></script>
+<script src="dist/cocos2d-html5-v3.0.smart.canvas.min.js"></script>
 <script type="text/javascript">  
 window.onload = function(){
+  cc.log = function(message){
+    return console.log(message);
+  }
   cc.game.onStart = function(){
       cc.view.setDesignResolutionSize(800, 480, cc.ResolutionPolicy.SHOW_ALL);
       cc.view.resizeWithBrowserSize(true);

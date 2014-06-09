@@ -155,10 +155,10 @@ var HelloWorldLayer = cc.Layer.extend({
         
         this.delegate(bird, {
         	click: function(event, target, layer){
-        		//cc.log(event);
+        		cc.log(event);
         		//layer.pauseEvent();
-                var scene = new TestPageViewScene();
-                cc.director.pushScene(scene);
+                //var scene = new TestPageViewScene();
+                //cc.director.pushScene(scene);
         	},
         	'mouseenter, mouseleave': function(event, target, layer){
         		cc.log(event.type);
@@ -171,8 +171,9 @@ var HelloWorldLayer = cc.Layer.extend({
         //cc.gray(closeBtn);
         //cc.log(closeBtn.getPosition().y)
         //cc.log(cc.ScrollView);
-        cc.Audio.playEffect('res/ready.mp3');
-        cc.Audio.playMusic('res/game_music.mp3');
+        
+        //cc.Audio.playEffect('res/ready.mp3');
+        //cc.Audio.playMusic('res/game_music.mp3');
         
         cc.native.call('getDeviceInfo').then(function(res){
         	cc.log(JSON.stringify(res));
