@@ -69,6 +69,7 @@
 			
 			if(cc.isString(actionCls)){
 				actionCls = _actionCache[actionCls];
+				cc.assert(actionCls, 'the animation fragement did not exists');
 			}
 			if(actionCls instanceof Animation){
 				actionCls = actionCls.getAction();
@@ -237,9 +238,15 @@
 	Animation.prototype.play = Animation.prototype.addAction;
 	
 	cc.actionCache = {
-		add: function(key){
+		add: function(key, action){
 			cc.assert(!(key in _actionCache), "animation " + key + " already exists!");
-			_actionCache[key] = new Animation;
+			if(action instanceof Animation){
+				_actionCache[key] = action;
+			}else if(action instanceof cc.Action){
+				_actionCache[key] = (new Animation()).play(action);
+			}else{
+				_actionCache[key] = new Animation;
+			}
 			return _actionCache[key];
 		},
 		get: function(key){
@@ -248,6 +255,11 @@
 	};
 	
 	cc.mixin(cc.Node.prototype, new Animation);
+	
+	cc.AnimationFragement = Animation;
+	cc.AnimationFragement.create = function(){
+		return new cc.AnimationFragement();
+	}
 	
 	cc.Node.prototype.act = function(){
 		var action = this.getAction();

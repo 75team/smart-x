@@ -95,12 +95,12 @@ var HelloWorldLayer = cc.Layer.extend({
         	.repeat();
         bird.runAction(animation.getAction());*/
         
-        var action = cc.actionCache.add('birdFly')
+        var birdFly = cc.AnimationFragement.create()
         				.animate(1.5, 'bird%d.png', 1, 3)
         				.spawn()
         				.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse();
         
-        bird.play('birdFly').repeat().act();
+        bird.play(birdFly).repeat().act();
         
         /*bird.animate(1.5, 'bird%d.png', 1, 3)
         .delay(1.0)
