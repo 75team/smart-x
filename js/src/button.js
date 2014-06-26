@@ -10,7 +10,18 @@
 	 */
 	var Button = cc.Sprite.extend({
 		ctor: function(texture){
-			this._super(texture);
+			if(texture instanceof cc.Node){
+				//texture = texture.getTexture();
+				this._super();
+				texture.attr({
+					xy: [0, 0],
+					anchor: [0, 0],
+				});
+				this.addChild(texture);
+				this.setContentSize(texture.getContentSize());
+			}else{
+				this._super(texture);
+			}
 			this._enabled = true;
 			
 			var _activated = false;

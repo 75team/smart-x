@@ -205,10 +205,17 @@
 		}
 	});
 	
-	cc.Layer.prototype.delegate = function(target, event, func){
+	cc.Layer.prototype.delegate = function(target, event, func, swallowTouches){
 		if(!this.__touchTargets) {this.__touchTargets = []};
+		if(swallowTouches == null){
+			swallowTouches = true;
+		}if(cc.isBoolean(func)){
+			swallowTouches = func;
+			func = null;
+		}
+		
         if(this.__touchTargets.indexOf(target) < 0){
-        	this.registerDelegator();
+        	this.registerDelegator(swallowTouches);
             if(!target.on){
                 cc.mixin(target, new cc.EventEmitter);
             }
@@ -221,7 +228,10 @@
         }
         if(event){
         	if(cc.isString(event)){
-        		target.on(event, func);
+        		var eventTypes = event.split(',');
+        		eventTypes.forEach(function(type){
+        			target.on(type.trim(), func);
+        		});
         	}else{
         		for(var typeStr in event){
         			var eventTypes = typeStr.split(',');
@@ -247,23 +257,24 @@
 		}
 	};
 	
-	cc.Layer.prototype.registerDelegator = function(){
+	cc.Layer.prototype.registerDelegator = function(swallowTouches){
 		if(!this.__delegatorInited){
 			var self = this;
 			
 			cc.eventManager.addListener({
 				event: cc.EventListener.TOUCH_ONE_BY_ONE,
-				swallowTouches: true,
+				swallowTouches: swallowTouches,
 				onTouchBegan: function (touch, event) {
 					var size = self.attr('size'); 
-					var locationInNode = self.convertToNodeSpace(touch.getLocation());
+					self.__beginTouchPoint = touch.getLocation();
+					
+					var locationInNode = self.convertToNodeSpace(self.__beginTouchPoint);
 					if(size.width > 0 || size.height > 0){
 						if(!cc.rectContainsPoint(cc.rect(0, 0, size.width, size.height)
 								, locationInNode)){
 							return false;
 						}						
 					}
-					self.__beginTouchPoint = locationInNode;
 					return delegateEvent(self, touch, 'touchstart');
 				},
 				onTouchMoved: function (touch, event) {
@@ -271,12 +282,12 @@
 					if(size.width == 0 && size.height == 0){
 						size = cc.director.getWinSize();
 					}
-					var locationInNode = self.convertToNodeSpace(touch.getLocation());
-					var delta = cc.p(locationInNode.x - self.__beginTouchPoint.x,
-							locationInNode.y - self.__beginTouchPoint.y);
+					var location = touch.getLocation();
+					var delta = cc.p(location.x - self.__beginTouchPoint.x,
+							location.y - self.__beginTouchPoint.y);
 					
-					if(!self.__clickAndMove && (Math.abs(delta.x) >= size.width / 30
-							|| Math.abs(delta.y) >= size.height / 30)){
+					if(!self.__clickAndMove && (Math.abs(delta.x) >= Math.min(30, size.width / 30)
+							|| Math.abs(delta.y) >= Math.min(30, size.height / 30))){
 						self.__moved = true;
 					}            
 					return delegateEvent(self, touch, 'touchmove');					

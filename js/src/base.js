@@ -1,5 +1,16 @@
 (function(global){
 	'use strict';
+	
+	Object.defineProperty(cc, 'exports', {
+		get: function(){
+			return global;
+		},
+		set: function(value){
+			cc.mixin(global, value);
+		},
+		enumerable: true,
+		configurable: false
+	});
 
 	if(!global.console){
 		global.console = {
@@ -476,7 +487,51 @@
 					node.fontName = value;
 				}
 			}
-		}
+		},
+		textAlign: {
+			set: function(node, value){
+				if(node && node.setHorizontalAlignment){
+					var map = {
+							"center": cc.TEXT_ALIGNMENT_CENTER,
+							"left":   cc.TEXT_ALIGNMENT_LEFT,
+							"right":  cc.TEXT_ALIGNMENT_RIGHT
+					};
+					if(typeof value === "string"){
+						value = map[value];
+					}
+					node.setHorizontalAlignment(value);
+					return true;
+				}
+				return false;
+			},
+			get: function(node){
+				if(node && node.getHorizontalAlignment){
+					return node.getHorizontalAlignment();
+				}
+			}
+		},
+		vAlign: {
+			set: function(node, value){
+				if(node && node.setVerticalAlignment){
+					var map = {
+							"middle": cc.VERTICAL_TEXT_ALIGNMENT_CENTER,
+							"top":    cc.VERTICAL_TEXT_ALIGNMENT_TOP,
+							"bottom": cc.VERTICAL_TEXT_ALIGNMENT_BOTTOM
+					};
+					if(typeof value === "string"){
+						value = map[value];
+					}
+					node.setVerticalAlignment(value);
+					return true;
+				}
+				return false;
+			},
+			get: function(node){
+				if(node && node.getVerticalAlignment){
+					return node.getVerticalAlignment();
+				}
+			}
+		},
 	}
 	
 	function camelize(s) {

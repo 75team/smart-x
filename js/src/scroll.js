@@ -3,10 +3,12 @@
 	
 	var BaseScrollView = _ScrollView.extend({
 		ctor: function(viewport, contentSize){
+			contentSize = contentSize || viewport;
 			this._super();
 			
 			var scrollLayer = cc.Layer.create();
 			scrollLayer.setContentSize(contentSize);
+			
 			scrollLayer.setClickAndMove(false);
 
 			this.initWithViewSize(viewport, scrollLayer);
@@ -66,6 +68,70 @@
 					return true;
 				}
 			}, this);
+		}
+	});
+	
+	var ListView = ScrollView.extend({
+		ctor: function(viewport, items){
+			this._super(viewport);
+			cc.mixin(this, new cc.EventEmitter);
+			this._items = items || [];
+			this._initItems();
+			this.setDirection(cc.SCROLLVIEW_DIRECTION_VERTICAL);
+			this.setContentOffset(this.minContainerOffset());
+			this.getContentLayer().setClickAndMove(false);
+		},
+		_initItems: function(){
+			var scrollLayer = this.getContentLayer();
+			var curSize = scrollLayer.getContentSize();
+			//scrollLayer.removeAllChildren();
+			var height = 0;
+			var self = this;
+			
+			for(var i = this._items.length - 1; i >= 0; i--){
+				var sprite = this._items[i];
+				if(!(sprite instanceof cc.Node)){
+					sprite = cc.createSprite('@'+sprite);
+					this._items[i] = sprite;
+				}
+				var parent = sprite.getParent();
+				if(!parent){
+					scrollLayer.addChild(sprite);
+					(function(i, item){
+						scrollLayer.delegate(item,{
+							'click': function(){
+								self.emit('itemClicked', item, i);
+							},
+							'mouseenter, mouseleave': function(event){
+								self.emit(event.type, item, i);
+							}
+						}, false);
+					})(i, sprite);
+				}
+				sprite.attr({
+					anchor: [0.5, 0],
+					xy: [curSize.width / 2, height]
+				});
+				height += sprite.getContentSize().height;
+			}			
+			scrollLayer.attr('height', height);
+		},
+		pushItem: function(itemSprite){
+			
+		},
+		popItem: function(itemSprite){
+			
+		},
+		insertItem: function(itemSprite, idx){
+			idx = idx || this._items.length;
+			this._items.splice(idx, 0, itemSprite);
+			this._initItems();
+			var offset = this.getContentOffset();
+			var _fixedSize = this._items[idx].getContentSize();
+			this.setContentOffset(cc.p(offset.x, offset.y - _fixedSize.height));
+		},
+		removeItem: function(itemSprite, idx){
+			
 		}
 	});
 	
@@ -210,11 +276,16 @@
 		return new ScrollView(viewport, contentSize);
 	};
 	
+	ListView.create = function(viewport, items){
+		return new ListView(viewport, items);
+	};
+	
 	PageView.create = function(viewport, pagewidth, pages){
 		return new PageView(viewport, pagewidth, pages);
 	};
 	
 	cc.ScrollView = ScrollView;
+	cc.ListView = ListView;
 	cc.PageView = PageView;
 	
 })(this);

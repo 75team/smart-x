@@ -194,11 +194,11 @@
 		skewTo: function(dur, sx, sy, easing, rate){
 			return this.addAction(cc.SkewTo, [dur, sx, sy], easing, rate);
 		},
-		tineBy: function(dur, deltaR, deltaG, deltaB, easing, rate){
-			return this.addAction(cc.TineBy, [dur, deltaR, deltaG, deltaB], easing, rate);
+		tintBy: function(dur, deltaR, deltaG, deltaB, easing, rate){
+			return this.addAction(cc.TintBy, [dur, deltaR, deltaG, deltaB], easing, rate);
 		},
-		tineTo: function(dur, deltaR, deltaG, deltaB, easing, rate){
-			return this.addAction(cc.TineTo, [dur, deltaR, deltaG, deltaB], easing, rate);        
+		tintTo: function(dur, deltaR, deltaG, deltaB, easing, rate){
+			return this.addAction(cc.TintTo, [dur, deltaR, deltaG, deltaB], easing, rate);        
 		},
 		/**
 	        sprite.animate(0.2, 'a.png', 'b.png', 'c.png');
