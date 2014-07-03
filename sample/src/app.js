@@ -1,14 +1,86 @@
+var testCases = [
+	{
+		name: 'Getting start!',
+		click: function(){
+			var scene = new HelloWorldScene();
+			cc.director.pushScene(scene);
+		}
+	},
+	{
+		name: 'Animation & Actions',
+		click: function(){
+			var scene = new ActionTestScene();
+			cc.director.pushScene(scene);
+		}
+	},
+	{
+		name: 'Touches & Clicks',
+		click: function(){
+			var scene = new EventTestScene();
+			cc.director.pushScene(scene);			
+		}
+	},
+	{
+		name: 'Sprite batching',
+		click: function(){
+			var scene = new BatchTestScene();
+			cc.director.pushScene(scene);			
+		}
+	},
+	{
+		name: 'Button control',
+		click: function(){
+			var scene = new ButtonsTestScene();
+			cc.director.pushScene(scene);			
+		}
+	},
+	{
+		name: 'BGM & Effects',
+		click: function(){
+			var scene = new AudioTestScene();
+			cc.director.pushScene(scene);			
+		}
+	},
+	{
+		name: 'Promise',
+		scene: null
+	},
+	{
+		name: 'Native calls',
+		scene: null
+	},
+	{
+		name: 'Loaders',
+		scene: null
+	},
+	{
+		name: 'Label & fonts',
+		scene: null
+	},	
+	{
+		name: 'Game data',
+		scene: null
+	},
+	{
+		name: 'Simple tiles',
+		scene: null
+	},
+	{
+		name: 'Page view',
+		click: function(){
+			var scene = new TestPageViewScene();
+			cc.director.pushScene(scene);
+		}
+	},
+];
 
-var HelloWorldLayer = cc.Layer.extend({
+var DemoLayer = cc.Layer.extend({
     ctor:function () {
-        //////////////////////////////
-        // 1. super init first
+    	
         this._super();
         
-        /////////////////////////////
-        // 2. add a menu item with "X" image, which is clicked to quit the program
-        //    you may modify it.
-        // ask director the window size
+        cc.spriteFrameCache.addSpriteFrames('res/birds.plist', 'res/birds.png');
+        
         var size = cc.director.getWinSize();
         
         var closeBtn = new cc.Button.create(res.CloseNormal_png);
@@ -23,50 +95,75 @@ var HelloWorldLayer = cc.Layer.extend({
         var self = this;
         this.addChild(closeBtn);
         this.delegate(closeBtn, 'click', function(){
-        	//cc.log('button clicked');
+        	//var scene = new HelloWorldScene();
+        	//cc.director.pushScene(scene);	
         	self.backClicked();
         });
         
-        /////////////////////////////
-        // 3. add your codes below...
-        // add a label shows "Hello World"
-        // create and initialize a label
-        this.helloLabel = cc.LabelTTF.create("Hello World", "Arial", 38);
-        // position the label on the center of the screen
-        this.helloLabel.x = size.width / 2;
-        this.helloLabel.y = 0;
-        // add the label as a child to this layer
-        this.addChild(this.helloLabel, 5);
-
-        var lazyLayer = cc.Layer.create();
-        this.addChild(lazyLayer);
-
-        // add "HelloWorld" splash screen"
-        this.sprite = cc.Sprite.create(res.HelloWorld_png);
-        this.sprite.attr({
-            x: size.width / 2,
-            y: size.height / 2,
-            scale: 0.5,
-            rotation: 180,
-            zIndex: 9999
+        var title = cc.createSprite('@Smart-x Test Cases', {
+        	xy: [400, 390],
+        	fontSize: 32,
+        	fontFamily: ""
         });
-        lazyLayer.addChild(this.sprite, 0);
-        //this.addChild(this.sprite); 
+        this.addChild(title);
         
-        var rotateToA = cc.RotateTo.create(2, 0);
-        var scaleToA = cc.ScaleTo.create(2, 1, 1);
+        var cases = testCases.map(function(c){
+        	var text = cc.createSprite('@'+c.name, {
+        		fontSize: 24,
+        		textAlign: 'center',
+        		vAlign: 'middle'
+        	});
+        	text.setDimensions(cc.size(600, 40));
+        
+        	return text;
+        });
+        
+        var Test = cc.Layer.extend({
+        	ctor: function(){
+        		cc.Layer.prototype.ctor.call(this);
+        	},
+        	init: function(){
+        		cc.log('aaa');
+        		this._contentOffset = cc.p(0,0);
+        		this._maxInset = cc.p(0, 0);
+        		this._minInset = cc.p(0, 0);
+        		this._scrollDistance = cc.p(0, 0);
+        		this._touchPoint = cc.p(0, 0);
+        		this._touches = [];
+        		this._viewSize = cc.size(0, 0);
+        		this._parentScissorRect = new cc.Rect(0,0,0,0);
+        		this._tmpViewRect = new cc.Rect(0,0,0,0);
+        	}
+        });
+        
+        var list = cc.ListView.create(cc.size(600, 300), cases);
+        list.setBounceable(false);
+        list.attr({
+        	xy: [100, 50],
+        	zOrder: 11
+        });
+        var layer = list.getContentLayer();
 
-        this.sprite.runAction(cc.Sequence.create(rotateToA, scaleToA));
-        this.helloLabel.runAction(cc.Spawn.create(cc.MoveBy.create(2.5, cc.p(0, size.height - 40)),cc.TintTo.create(2.5,255,125,0)));
+        list.on('itemClicked', function(item, i){
+        	//cc.log(i);
+        	testCases[i].click && testCases[i].click();
+        });
+        list.on('mouseenter', function(item, i){
+        	testCases[i].click && item.attr('scale', 1.2);
+        	if(cc.isHtml5){
+        		cc._canvas.style.cursor = 'pointer';
+        	}
+        });
+        list.on('mouseleave', function(item, i){
+        	item.attr('scale', 1.0);
+        	if(cc.isHtml5){
+        		cc._canvas.style.cursor = '';
+        	}
+        });        
+        this.addChild(list);
         
-        //cc.log(cc.Sprite.prototype.setTextureRect);
-        /*var bird = cc.Sprite.create('res/bird1.png');
-        bird.attr({
-        	x:100,
-        	y:200
-        });*/
         
-        cc.fontFamily.add('Arial', 'res/American Typewriter.ttf');
+        /*cc.fontFamily.add('Arial', 'res/American Typewriter.ttf');
         cc.spriteFrameCache.addSpriteFrames('res/birds.plist', 'res/birds.png');
         
         var bird = cc.createSprite('bird1.png',{
@@ -80,12 +177,12 @@ var HelloWorldLayer = cc.Layer.extend({
         });
         
         //bird.attr('size', [250, 200]);
-        bird.attr('background', '#ff0');
+        //bird.attr('background', '#ff0');
         
         //cc.log(bird.getContentSize());
         //bird.attr('texture', 'bird2.png');
         
-        this.addChild(bird, 10);
+        this.addChild(bird, 10);*/
         
         /*var animation = cc.actionCache.add('birdAction')
         	//.moveBy(0.5, cc.p(50,50)).reverse()
@@ -97,12 +194,12 @@ var HelloWorldLayer = cc.Layer.extend({
         	.repeat();
         bird.runAction(animation.getAction());*/
         
-        var birdFly = cc.AnimationFragement.create()
+        /*var birdFly = cc.AnimationFragement.create()
         				.animate(1.5, 'bird%d.png', 1, 3)
         				.spawn()
         				.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse();
         
-        bird.play(birdFly).repeat().act();
+        bird.play(birdFly).repeat().act();*/
         
         /*bird.animate(1.5, 'bird%d.png', 1, 3)
         .delay(1.0)
@@ -117,10 +214,10 @@ var HelloWorldLayer = cc.Layer.extend({
         //this.sprite.runAction(cc.actionCache.get('birdAction').getAction().clone());
         //cc.showMessage(this, 'abc!!');
 
-        cc.game.on('hide', function(){
+        /*cc.game.on('hide', function(){
         	//处理游戏进入后台的情况
         	cc.log('oooo');
-        });
+        });*/
 
         /*cc.eventManager.addListener({
         	event: cc.EventListener.TOUCH_ALL_AT_ONCE,
@@ -159,11 +256,11 @@ var HelloWorldLayer = cc.Layer.extend({
         //this.attr('size', [800, 480]);
         
         //this.attr('xy', [100, 100]);
-        this.attr('background', '#f00');
+        //this.attr('background', '#f00');
         
         //cc.log(this.getBoundingBox().height)
         
-        this.delegate(bird, {
+        /*this.delegate(bird, {
         	click: function(event, target, layer){
         		//cc.log(event);
         		//layer.pauseEvent();
@@ -180,25 +277,22 @@ var HelloWorldLayer = cc.Layer.extend({
         cc.ungray(this.sprite);
         //cc.gray(closeBtn);
         //cc.log(closeBtn.getPosition().y)
-        //cc.log(cc.ScrollView);
+        //cc.log(cc.ScrollView);*/
         
         //cc.Audio.playEffect('res/ready.mp3');
         //cc.Audio.playMusic('res/game_music.mp3');
         
-        cc.native.call('getDeviceInfo').then(function(res){
+        /*cc.native.call('getDeviceInfo').then(function(res){
         	cc.log(JSON.stringify(res));
         })['catch'](function(err){
         	cc.log(err);
-        });
-        
-        var p = cc.p({x:1, y:2}, undefined);
-        cc.log([p.x, p.y])
+        });*/
         
         //cc.log(cc.loader.load);
         
         //cc.log(cc.LoaderScene._instance.initWith);
         
-        for(var i = 0; i < 10; i++){
+        /*for(var i = 0; i < 10; i++){
         	var bird = cc.createSprite('bird3.png',{
         		anchorX: 0,
         		x: 100 + i*20,
@@ -221,9 +315,36 @@ var HelloWorldLayer = cc.Layer.extend({
         	});
         	//this.addChild(bird);
         	this.addChildToBatch(bird, 'res/bird2.png');
-        }
+        }*/
+        
+        /*var clipper = cc.ClippingNode.create();
+        clipper.attr({
+        	anchor: [0, 0],
+        	size: size,
+        	xy: [0, 0],
+        	background: 'rgba(192,192,192,192)'
+        });
+        clipper.setInverted(true);
+        //var drawNode = cc.DrawNode.create();
+        //drawNode.drawDot(cc.p(100,100),50,cc.color('blue'));
+        //this.addChild(drawNode);
+        //clipper.setStencil(drawNode);
+        var birdNode = cc.createSprite('bird2.png', {
+        	xy: [100, 100]
+        });
+        clipper.setStencil(birdNode);
+        clipper.setStencil(bird);
+        clipper.setAlphaThreshold(0);
+        //this.addChild(birdNode);
+        this.addChild(clipper);*/
         
         return true;
+    },
+    onExit: function(){
+    	this._super();
+    	if(cc.isHtml5){
+    		cc._canvas.style.cursor = '';
+    	}
     },
     backClicked: function(){
     	//cc.log('end');
@@ -233,13 +354,10 @@ var HelloWorldLayer = cc.Layer.extend({
 
 var DemoScene = cc.Scene.extend({
 	ctor: function(){
-		this.autoReload = true;
+		this.autoReload = false;
     	this._super();
-	},
-    onEnter:function () {
-        this._super();
-        var layer = new HelloWorldLayer();
-        this.addChild(layer);
-    }
+    	var layer = new DemoLayer();
+    	this.addChild(layer);
+	}
 });
 

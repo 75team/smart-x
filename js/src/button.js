@@ -10,8 +10,9 @@
 	 */
 	var Button = cc.Sprite.extend({
 		ctor: function(texture){
+			this.contentSprite = this;
+			
 			if(texture instanceof cc.Node){
-				//texture = texture.getTexture();
 				this._super();
 				texture.attr({
 					xy: [0, 0],
@@ -19,8 +20,10 @@
 				});
 				this.addChild(texture);
 				this.setContentSize(texture.getContentSize());
+				this.contentSprite = texture;
 			}else{
-				this._super(texture);
+				this._super();
+				this.attr('texture', texture);
 			}
 			this._enabled = true;
 			
@@ -76,9 +79,9 @@
 				set: function(disabled){
 					this._enabled = !disabled;
 					if(disabled){
-						cc.gray(this);
+						cc.gray(this.contentSprite);
 					}else{
-						cc.ungray(this);
+						cc.ungray(this.contentSprite);
 					}
 				},
 				enumerable: true,

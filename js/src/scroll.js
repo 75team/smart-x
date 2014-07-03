@@ -88,6 +88,8 @@
 			var height = 0;
 			var self = this;
 			
+			scrollLayer.registerDelegator(false);
+			
 			for(var i = this._items.length - 1; i >= 0; i--){
 				var sprite = this._items[i];
 				if(!(sprite instanceof cc.Node)){
@@ -105,7 +107,7 @@
 							'mouseenter, mouseleave': function(event){
 								self.emit(event.type, item, i);
 							}
-						}, false);
+						});
 					})(i, sprite);
 				}
 				sprite.attr({

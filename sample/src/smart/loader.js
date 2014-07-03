@@ -24,16 +24,17 @@
 				this.addChild(per);
 				
 				cc.loader.load(_resources, 
-						function(result, count){ 
-					var percent = Math.round(100 * count / _resources.length);
-					per.setString('Loading...' + percent + '%');
-				},
-				function(){
-					per.setString('Loading...' + '100%');
-					if(selector){
-						selector.call(target);
-					}
-				});
+					function(result, count){ 
+						var percent = Math.round(100 * count / _resources.length);
+						per.setString('Loading...' + percent + '%');
+					},
+					function(){
+						per.setString('Loading...' + '100%');
+						if(selector){
+							selector.call(target);
+						}
+					});
+				
 				return true;
 			}
 		});
@@ -54,11 +55,4 @@
 		}
 	}
 	
-	/*cc.Loader.preload = function (resources, selector, target) {
-		if (!this._instance) {
-			this._instance = new cc.Loader();
-		}
-		this._instance.initWith(resources, selector, target);
-		return this._instance;
-	};*/
 })(this);

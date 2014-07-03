@@ -1,10 +1,6 @@
 (function(global){
 	'use strict';
 	
-	var _actionCache = {
-			
-	};
-	
 	function Animation(){
 		
 	}
@@ -67,10 +63,6 @@
 		addAction: function(actionCls, args, easing, rate){
 			var actions;
 			
-			if(cc.isString(actionCls)){
-				actionCls = _actionCache[actionCls];
-				cc.assert(actionCls, 'the animation fragement did not exists');
-			}
 			if(actionCls instanceof Animation){
 				actionCls = actionCls.getAction();
 			}
@@ -194,11 +186,11 @@
 		skewTo: function(dur, sx, sy, easing, rate){
 			return this.addAction(cc.SkewTo, [dur, sx, sy], easing, rate);
 		},
-		tineBy: function(dur, deltaR, deltaG, deltaB, easing, rate){
-			return this.addAction(cc.TineBy, [dur, deltaR, deltaG, deltaB], easing, rate);
+		tintBy: function(dur, deltaR, deltaG, deltaB, easing, rate){
+			return this.addAction(cc.TintBy, [dur, deltaR, deltaG, deltaB], easing, rate);
 		},
-		tineTo: function(dur, deltaR, deltaG, deltaB, easing, rate){
-			return this.addAction(cc.TineTo, [dur, deltaR, deltaG, deltaB], easing, rate);        
+		tintTo: function(dur, deltaR, deltaG, deltaB, easing, rate){
+			return this.addAction(cc.TintTo, [dur, deltaR, deltaG, deltaB], easing, rate);        
 		},
 		/**
 	        sprite.animate(0.2, 'a.png', 'b.png', 'c.png');
@@ -236,23 +228,6 @@
 	});
 	
 	Animation.prototype.play = Animation.prototype.addAction;
-	
-	cc.actionCache = {
-		add: function(key, action){
-			cc.assert(!(key in _actionCache), "animation " + key + " already exists!");
-			if(action instanceof Animation){
-				_actionCache[key] = action;
-			}else if(action instanceof cc.Action){
-				_actionCache[key] = (new Animation()).play(action);
-			}else{
-				_actionCache[key] = new Animation;
-			}
-			return _actionCache[key];
-		},
-		get: function(key){
-			return _actionCache[key];
-		}
-	};
 	
 	cc.mixin(cc.Node.prototype, new Animation);
 	

@@ -1,5 +1,16 @@
 (function(global){
 	'use strict';
+	
+	Object.defineProperty(cc, 'exports', {
+		get: function(){
+			return global;
+		},
+		set: function(value){
+			cc.mixin(global, value);
+		},
+		enumerable: true,
+		configurable: false
+	});
 
 	if(!global.console){
 		global.console = {
@@ -361,6 +372,7 @@
 	}
 	
 	cc.Node.prototype._attr = cc.Node.prototype.attr;
+	
 	var attrMap = {
 		xy: {
 			get: function(node){
@@ -372,6 +384,14 @@
 					x: value.x,
 					y: value.y
 				});
+			}
+		},
+		zOrder: {
+			get: function(node){
+				return node.zIndex;
+			},
+			set: function(node, value){
+				node.zIndex = value;
 			}
 		},
 		anchor: {
@@ -440,13 +460,9 @@
 				}
 				var size = node.attr('size');
 
-				if(node instanceof cc.Layer && size.width == 0 && size.height == 0){
-					size = cc.director.getWinSize();
-				}
 				if(!isString(value) || cc.isColorString(value)){
 					value = cc.color(value);
 					var colorLayer = cc.LayerColor.create(value);
-					colorLayer.setTag(-1);
 					colorLayer.setLocalZOrder(-1);
 					
 					colorLayer.attr({
@@ -454,13 +470,17 @@
 					});
 					
 					node.addChild(colorLayer);
+					
+					node.__backgroundElement = colorLayer;
 				}else{
 					var sprite = cc.createSprite(value, {
 						xy: [size.width/2, size.height/2],
 						zIndex: -1
 					});
 					
-					node.addChild(sprite);						
+					node.addChild(sprite);	
+					
+					node.__backgroundElement = sprite;
 				}
 			}
 		},
@@ -476,7 +496,51 @@
 					node.fontName = value;
 				}
 			}
-		}
+		},
+		textAlign: {
+			set: function(node, value){
+				if(node && node.setHorizontalAlignment){
+					var map = {
+							"center": cc.TEXT_ALIGNMENT_CENTER,
+							"left":   cc.TEXT_ALIGNMENT_LEFT,
+							"right":  cc.TEXT_ALIGNMENT_RIGHT
+					};
+					if(typeof value === "string"){
+						value = map[value];
+					}
+					node.setHorizontalAlignment(value);
+					return true;
+				}
+				return false;
+			},
+			get: function(node){
+				if(node && node.getHorizontalAlignment){
+					return node.getHorizontalAlignment();
+				}
+			}
+		},
+		vAlign: {
+			set: function(node, value){
+				if(node && node.setVerticalAlignment){
+					var map = {
+							"middle": cc.VERTICAL_TEXT_ALIGNMENT_CENTER,
+							"top":    cc.VERTICAL_TEXT_ALIGNMENT_TOP,
+							"bottom": cc.VERTICAL_TEXT_ALIGNMENT_BOTTOM
+					};
+					if(typeof value === "string"){
+						value = map[value];
+					}
+					node.setVerticalAlignment(value);
+					return true;
+				}
+				return false;
+			},
+			get: function(node){
+				if(node && node.getVerticalAlignment){
+					return node.getVerticalAlignment();
+				}
+			}
+		},
 	}
 	
 	function camelize(s) {
@@ -502,11 +566,17 @@
 		
 		for(var key in attrs){
 			key = camelize(key);
+			if(key == 'background'){
+				continue;
+			}
 			if(key in attrMap){
 				attrMap[key].set(this, attrs[key]);
 			}else{
 				this[key] = attrs[key];
 			}
+		}
+		if('background' in attrs){
+			attrMap.background.set(this, attrs.background);
 		}
 	}
 	
@@ -584,19 +654,28 @@
 			"}";
 		
 		cc.gray = function(sprite){ 
-			var shader = cc.GLProgram.createWithByteArrays(SHADER_POSITION_GRAY_VERT, SHADER_POSITION_GRAY_FRAG);
-	        shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);  
-	        shader.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);  
-	        shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);            	
-	        sprite.setGLProgram(shader);      		
+			if(!sprite.fontName){
+				var shader = cc.GLProgram.createWithByteArrays(SHADER_POSITION_GRAY_VERT, SHADER_POSITION_GRAY_FRAG);
+		        shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);  
+		        shader.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);  
+		        shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);            	
+		        sprite.setGLProgram(shader);  
+			}else{
+		        sprite.__prevColor = sprite.attr('color');
+		        sprite.attr('color', 'gray');
+			}
 		}
 
 		cc.ungray = function(sprite){
-			var shader = cc.GLProgram.createWithByteArrays(cc.SHADER_POSITION_TEXTURE_COLOR_VERT, cc.SHADER_POSITION_TEXTURE_COLOR_FRAG);
-			shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);  
-			shader.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);  
-			shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);            	
-			sprite.setGLProgram(shader);  			
+			if(!sprite.fontName){
+				var shader = cc.GLProgram.createWithByteArrays(cc.SHADER_POSITION_TEXTURE_COLOR_VERT, cc.SHADER_POSITION_TEXTURE_COLOR_FRAG);
+				shader.addAttribute(cc.ATTRIBUTE_NAME_POSITION, cc.VERTEX_ATTRIB_POSITION);  
+				shader.addAttribute(cc.ATTRIBUTE_NAME_COLOR, cc.VERTEX_ATTRIB_COLOR);  
+				shader.addAttribute(cc.ATTRIBUTE_NAME_TEX_COORD, cc.VERTEX_ATTRIB_TEX_COORDS);            	
+				sprite.setGLProgram(shader);  	
+			}else{
+				sprite.attr('color', sprite.__prevColor);
+			}
 		}
 	}else{
 		cc.gray = function(){

@@ -1,6 +1,6 @@
-(function(global){
+(function(){
 	
-	var MyLayer = cc.Layer.extend({
+	var MyLayer = TestLayer.extend({
 		ctor: function(){
 			this._super();
 			var size = cc.director.getWinSize();
@@ -55,6 +55,7 @@
 	
 	var MyScene = cc.Scene.extend({
 		ctor:function () {
+			this.autoReload = true;
 			this._super();
 
 			var layer = new MyLayer();
@@ -62,5 +63,5 @@
 		}
 	});
 	
-	global.TestPageViewScene = MyScene;
-})(this);
+	cc.exports.TestPageViewScene = MyScene;
+})();

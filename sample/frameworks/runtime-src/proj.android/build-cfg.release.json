@@ -1,0 +1,24 @@
+{
+    "ndk_module_path" :[
+        "../../js-bindings",
+        "../../js-bindings/cocos2d-x",
+        "../../js-bindings/cocos2d-x/cocos",
+        "../../js-bindings/cocos2d-x/external"
+    ],
+    "copy_resources": [
+        {
+            "from": "../../../dist",
+            "to": "",
+             "exclude": [
+                "*.gz"
+            ]
+        },
+        {
+            "from": "../../../res",
+            "to": "res",
+            "exclude": [
+                "*.gz"
+            ]
+        }
+    ]
+}

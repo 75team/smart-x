@@ -14,6 +14,12 @@
 			this.__contextDefer = cc.Defer.create();
 		}
 		
+		var size = this.attr('size');
+		if(size.width == 0 && size.height == 0){
+			//修复CCLayer没有宽高的bug
+			this.attr('size', cc.director.getWinSize());
+		}
+		
 		var self = this;
 		if(!this.__initedKeyback && this.backClicked){
 			this.__initedKeyback = true;
@@ -51,9 +57,22 @@
 				this.__pushState = null;
 			}
 		}
+		
+		if(this.__retainedTargets){
+			for(var i = 0; i < this.__retainedTargets.length; i++){
+				this.__retainedTargets[i].release();
+			}
+		}
+		
 		this.clearAllTimers();
 		return _onExit.apply(this, arguments);
 	};
+	
+	cc.Layer.prototype.retainTarget = function(node){
+		this.__retainedTargets = this.__retainedTargets || [];
+		this.__retainedTargets.push(node);
+		node.retain();
+	}
 	
 	cc.Layer.prototype.addChildToBatch = function(node, batchName){
 		//var batchName = node.getTexture().getName();
@@ -110,9 +129,12 @@
 			var colorLayer = cc.LayerColor.create(cc.color(colorOrImg));
 			this.addChild(colorLayer, -1);			
 		}else{
-			var winSize = cc.director.getWinSize();
+			var size = this.attr('size');
+			if(size.width == 0 && size.height == 0){
+				size = cc.director.getWinSize();
+			}
 			var sprite = cc.createSprite(colorOrImg, {
-				xy: [winSize.width/2, winSize.height/2],
+				xy: [size.width/2, size.height/2],
 				zIndex: -1
 			});
 			this.addChild(sprite);			
@@ -121,7 +143,8 @@
 	
 	function dispatchEvent(event, touch, target, layer){
 		touch.type = event;
-		target.emit(event, touch, target, layer);
+		touch.target = target;
+		target.emit(event, touch);
 	}
 	
 	function delegateEvent(layer, touch, event){
@@ -135,7 +158,7 @@
 			var size = node.getContentSize();
 			var rect = cc.rect(0, 0, size.width, size.height);
 
-			if (cc.rectContainsPoint(rect, local)) {
+			if (node === layer || cc.rectContainsPoint(rect, local)) {
 				touch.returnValue = true;
 				touch.preventDefault = function(){
 					touch.returnValue = false;
@@ -205,17 +228,12 @@
 		}
 	});
 	
-	cc.Layer.prototype.delegate = function(target, event, func, swallowTouches){
-		if(!this.__touchTargets) {this.__touchTargets = []};
-		if(swallowTouches == null){
-			swallowTouches = true;
-		}if(cc.isBoolean(func)){
-			swallowTouches = func;
-			func = null;
+	cc.Layer.prototype.delegate = function(target, event, func){
+		if(!this.__touchTargets){
+			this.registerDelegator(true);
 		}
 		
         if(this.__touchTargets.indexOf(target) < 0){
-        	this.registerDelegator(swallowTouches);
             if(!target.on){
                 cc.mixin(target, new cc.EventEmitter);
             }
@@ -234,88 +252,89 @@
         		});
         	}else{
         		for(var typeStr in event){
-        			var eventTypes = typeStr.split(',');
-        			var func = event[typeStr];
-        			eventTypes.forEach(function(type){
-        				target.on(type.trim(), func);
-        			});
+        			if(cc.isFunction(event[typeStr])){
+	        			var eventTypes = typeStr.split(',');
+	        			var func = event[typeStr];
+	        			eventTypes.forEach(function(type){
+	        				target.on(type.trim(), func);
+	        			});
+        			}else{
+        				target[typeStr] = event[typeStr];
+        			}
         		}
         	}
         }		
 	};
 
 	cc.Layer.prototype.undelegate = function(target, event){
-		if(!this.__touchTargets) {this.__touchTargets = []};
-		var idx = this.__touchTargets.indexOf(target);
-		if(idx >= 0){
-			if(!event){
-				this.__touchTargets.splice(idx, 1);
-				target.removeAllListeners();
-			}else{
-				target.removeAllListeners(event);
+		if(this.__touchTargets){
+			var idx = this.__touchTargets.indexOf(target);
+			if(idx >= 0){
+				if(!event){
+					this.__touchTargets.splice(idx, 1);
+					target.removeAllListeners();
+				}else{
+					target.removeAllListeners(event);
+				}
 			}
 		}
 	};
 	
 	cc.Layer.prototype.registerDelegator = function(swallowTouches){
-		if(!this.__delegatorInited){
-			var self = this;
-			
-			cc.eventManager.addListener({
-				event: cc.EventListener.TOUCH_ONE_BY_ONE,
-				swallowTouches: swallowTouches,
-				onTouchBegan: function (touch, event) {
-					var size = self.attr('size'); 
-					self.__beginTouchPoint = touch.getLocation();
-					
-					var locationInNode = self.convertToNodeSpace(self.__beginTouchPoint);
-					if(size.width > 0 || size.height > 0){
-						if(!cc.rectContainsPoint(cc.rect(0, 0, size.width, size.height)
-								, locationInNode)){
-							return false;
-						}						
-					}
-					return delegateEvent(self, touch, 'touchstart');
-				},
-				onTouchMoved: function (touch, event) {
-					var size = self.attr('size'); 
-					if(size.width == 0 && size.height == 0){
-						size = cc.director.getWinSize();
-					}
-					var location = touch.getLocation();
-					var delta = cc.p(location.x - self.__beginTouchPoint.x,
-							location.y - self.__beginTouchPoint.y);
-					
-					if(!self.__clickAndMove && (Math.abs(delta.x) >= Math.min(30, size.width / 30)
-							|| Math.abs(delta.y) >= Math.min(30, size.height / 30))){
-						self.__moved = true;
-					}            
-					return delegateEvent(self, touch, 'touchmove');					
-				},
-				onTouchEnded: function (touch, event) {
-					var ret = delegateEvent(self, touch, 'touchend');
-
-					if(!self.__moved){
-						delegateEvent(self, touch, 'click');
-					}
-					self.__moved = false;
-					
-					return ret;
+		cc.assert(!this.__touchTargets, "The delegator has already registered!")
+		
+		this.__touchTargets = []
+		var self = this;
+		
+		cc.eventManager.addListener({
+			event: cc.EventListener.TOUCH_ONE_BY_ONE,
+			swallowTouches: swallowTouches,
+			onTouchBegan: function (touch, event) {
+				var size = self.attr('size'); 
+				self.__beginTouchPoint = touch.getLocation();
+				
+				var locationInNode = self.convertToNodeSpace(self.__beginTouchPoint);
+				if(size.width > 0 || size.height > 0){
+					if(!cc.rectContainsPoint(cc.rect(0, 0, size.width, size.height)
+							, locationInNode)){
+						return false;
+					}						
 				}
-			}, this);
-			
-			cc.eventManager.addListener({
-				event: cc.EventListener.MOUSE,
-				onMouseMove: function(event){
-					return delegateEvent(self, event, 'mousemove');
-				}				
-			}, this);
-			
-			this.__delegatorInited = true;
-			
-			return true;
-		}
-		return false;
+				return delegateEvent(self, touch, 'touchstart');
+			},
+			onTouchMoved: function (touch, event) {
+				var size = self.attr('size'); 
+				if(size.width == 0 && size.height == 0){
+					size = cc.director.getWinSize();
+				}
+				var location = touch.getLocation();
+				var delta = cc.p(location.x - self.__beginTouchPoint.x,
+						location.y - self.__beginTouchPoint.y);
+				
+				if(!self.__clickAndMove && (Math.abs(delta.x) >= Math.min(15, size.width / 30)
+						|| Math.abs(delta.y) >= Math.min(15, size.height / 30))){
+					self.__moved = true;
+				}            
+				return delegateEvent(self, touch, 'touchmove');					
+			},
+			onTouchEnded: function (touch, event) {
+				var ret = delegateEvent(self, touch, 'touchend');
+
+				if(!self.__moved){
+					delegateEvent(self, touch, 'click');
+				}
+				self.__moved = false;
+				
+				return ret;
+			}
+		}, this);
+		
+		cc.eventManager.addListener({
+			event: cc.EventListener.MOUSE,
+			onMouseMove: function(event){
+				return delegateEvent(self, event, 'mousemove');
+			}				
+		}, this);
 	};
 	
 	cc.Layer.prototype.pauseEvent = function(){
@@ -329,5 +348,6 @@
 	cc.Layer.prototype.getExtras = function(){
 		return cc.director.getRunningScene().__extraData;
 	};
+	
 	
 })(this);
