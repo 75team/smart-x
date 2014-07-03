@@ -12,7 +12,9 @@ var g_resources = [
     'res/birds.png',
     'res/ortho-test1.png',
     'res/tiles/tai_1.png',
-
+    'res/button_music.png',
+    'res/button_sound.png',
+    
     //plist
     'res/birds.plist',
 

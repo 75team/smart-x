@@ -32,8 +32,15 @@
 			});
 			this.addChild(effectButton);
 			
-			cc.Audio.playMusic('res/game_music.mp3');
 			return true;
+		},
+		onEnter: function(){
+			this._super();
+			cc.Audio.playMusic('res/game_music.mp3');
+		},
+		onExit: function(){
+			cc.Audio.stopMusic();
+			this._super();
 		}
 	});
 

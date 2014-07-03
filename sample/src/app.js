@@ -3,6 +3,7 @@ var testCases = [
 		name: 'Getting start!',
 		click: function(){
 			var scene = new HelloWorldScene();
+			scene.putExtra('source', 'src/tests/hello_world.js');
 			cc.director.pushScene(scene);
 		}
 	},
@@ -10,6 +11,7 @@ var testCases = [
 		name: 'Animation & Actions',
 		click: function(){
 			var scene = new ActionTestScene();
+			scene.putExtra('source', 'src/tests/test_action.js');
 			cc.director.pushScene(scene);
 		}
 	},
@@ -17,6 +19,7 @@ var testCases = [
 		name: 'Touches & Clicks',
 		click: function(){
 			var scene = new EventTestScene();
+			scene.putExtra('source', 'src/tests/test_events.js');
 			cc.director.pushScene(scene);			
 		}
 	},
@@ -24,6 +27,7 @@ var testCases = [
 		name: 'Sprite batching',
 		click: function(){
 			var scene = new BatchTestScene();
+			scene.putExtra('source', 'src/tests/test_batching.js');
 			cc.director.pushScene(scene);			
 		}
 	},
@@ -31,6 +35,7 @@ var testCases = [
 		name: 'Button control',
 		click: function(){
 			var scene = new ButtonsTestScene();
+			scene.putExtra('source', 'src/tests/test_buttons.js');
 			cc.director.pushScene(scene);			
 		}
 	},
@@ -38,12 +43,9 @@ var testCases = [
 		name: 'BGM & Effects',
 		click: function(){
 			var scene = new AudioTestScene();
+			scene.putExtra('source', 'src/tests/test_audio.js');
 			cc.director.pushScene(scene);			
 		}
-	},
-	{
-		name: 'Promise',
-		scene: null
 	},
 	{
 		name: 'Native calls',
@@ -69,6 +71,7 @@ var testCases = [
 		name: 'Page view',
 		click: function(){
 			var scene = new TestPageViewScene();
+			scene.putExtra('source', 'src/tests/pageview.js');
 			cc.director.pushScene(scene);
 		}
 	},

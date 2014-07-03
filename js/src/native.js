@@ -77,7 +77,7 @@
 		return deferred.promise;
 	};
 
-	if(cc.isAndroid){
+	if(!cc.isHtml5 && !cc.isIOS){
 		global.open = function(url){
 			if(!/^(http(s)?|file):\/\//.test(url)){
 				url = 'file:///android_asset/' + url;
