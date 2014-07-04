@@ -18,6 +18,7 @@
     "src/smart/base.js",
     "src/smart/loader.js",
     "src/smart/native.js",
+    "src/smart/data.js",
     "src/smart/shaders.js",
     "src/smart/button.js",
     "src/smart/audio.js",
@@ -37,6 +38,9 @@
     "src/tests/test_batching.js",
     "src/tests/test_buttons.js",
     "src/tests/test_audio.js",
+    "src/tests/test_label.js",
+    "src/tests/test_store.js",
+    "src/tests/test_tilemap.js",
     "src/tests/test_pageview.js"
   ]
 }

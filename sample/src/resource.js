@@ -19,9 +19,11 @@ var g_resources = [
     'res/birds.plist',
 
     //fnt
+    'res/A Damn Mess.ttf',
+    'res/American Typewriter.ttf',
 
     //tmx
-    //'res/test.tmx',
+    'res/test.tmx',
     //'res/test.json',
 
     //bgm

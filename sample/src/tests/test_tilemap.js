@@ -1,6 +1,6 @@
-(function(global){
+(function(){
 
-    var MyLayer = cc.Layer.extend({
+    var MyLayer = TestLayer.extend({
         ctor: function(){
             this._super();
             var size = cc.director.getWinSize();
@@ -50,8 +50,8 @@
         }
     });
 
-    global.TestTileMapScene = TestTileMapScene;
+    cc.exports.TestTileMapScene = TestTileMapScene;
 
-})(this);
+})();
 
 

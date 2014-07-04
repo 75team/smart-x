@@ -48,24 +48,28 @@ var testCases = [
 		}
 	},
 	{
-		name: 'Native calls',
-		scene: null
-	},
-	{
-		name: 'Loaders',
-		scene: null
-	},
-	{
 		name: 'Label & fonts',
-		scene: null
+		click: function(){
+			var scene = new LabelTestScene();
+			scene.putExtra('source', 'src/tests/test_label.js');
+			cc.director.pushScene(scene);			
+		}
 	},	
 	{
-		name: 'Game data',
-		scene: null
+		name: 'Game datas',
+		click: function(){
+			var scene = new StoreSceneTest();
+			scene.putExtra('source', 'src/tests/test_store.js');
+			cc.director.pushScene(scene);			
+		}
 	},
 	{
 		name: 'Simple tiles',
-		scene: null
+		click: function(){
+			var scene = new TestTileMapScene();
+			scene.putExtra('source', 'src/tests/test_tilemap.js');
+			cc.director.pushScene(scene);			
+		}
 	},
 	{
 		name: 'Page view',
@@ -164,161 +168,11 @@ var DemoLayer = cc.Layer.extend({
         	}
         });        
         this.addChild(list);
-        
-        
-        /*cc.fontFamily.add('Arial', 'res/American Typewriter.ttf');
-        cc.spriteFrameCache.addSpriteFrames('res/birds.plist', 'res/birds.png');
-        
-        var bird = cc.createSprite('bird1.png',{
-        	anchorX: 0,
-            x: 100,
-        	y: 200,
-            fontSize: 44,
-            fontFamily: 'Arial',
-            //texture1: 'bird3.png rect(0,0,10,10)'
-            //color: '#ff0000',
-        });
-        
-        //bird.attr('size', [250, 200]);
-        //bird.attr('background', '#ff0');
-        
-        //cc.log(bird.getContentSize());
-        //bird.attr('texture', 'bird2.png');
-        
-        this.addChild(bird, 10);*/
-        
-        /*var animation = cc.actionCache.add('birdAction')
-        	//.moveBy(0.5, cc.p(50,50)).reverse()
-        	.animate(1.5, 'bird%d.png', 1, 3)
-        	.delay(1.0)
-        	.then(function(){
-        		cc.log('ok')
-        	})
-        	.repeat();
-        bird.runAction(animation.getAction());*/
-        
-        /*var birdFly = cc.AnimationFragement.create()
-        				.animate(1.5, 'bird%d.png', 1, 3)
-        				.spawn()
-        				.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse();
-        
-        bird.play(birdFly).repeat().act();*/
-        
-        /*bird.animate(1.5, 'bird%d.png', 1, 3)
-        .delay(1.0)
-        .then(function(){
-        	//cc.log('ok')
-        })
-        .repeat()
-        .spawn();
-        
-        bird.moveBy(0.5, cc.p(50,50), cc.EaseOut, 2).reverse().delay(1.0).repeat().act();*/
-        
-        //this.sprite.runAction(cc.actionCache.get('birdAction').getAction().clone());
-        //cc.showMessage(this, 'abc!!');
 
         /*cc.game.on('hide', function(){
         	//处理游戏进入后台的情况
         	cc.log('oooo');
         });*/
-
-        /*cc.eventManager.addListener({
-        	event: cc.EventListener.TOUCH_ALL_AT_ONCE,
-        	onTouchesMoved: function (touches, event) {
-        		var touch = touches[0];
-        		var delta = touch.getDelta();
-
-        		cc.log(delta);
-        	}
-        }, this);*/
-        
-        //cc.log(cc.KEY.back);
-        /*cc.eventManager.addListener({
-        	event: cc.EventListener.KEYBOARD,
-        	onKeyReleased: function(keyCode, event){
-        		cc.log("keyCode："+keyCode);
-        		if(keyCode == cc.KEY.back)
-        		{
-        			//......
-        		}
-        	}
-        }, this);*/
-
-        /*cc.eventManager.addListener({
-        	event: cc.EventListener.MOUSE,
-        	onMouseDown: function(){
-        		cc.log(arguments);
-        	}
-        }, this);*/
-        
-        /*cc.log([bird.getGlobalZOrder(), bird.getLocalZOrder()])
-        
-        this.getContext().then(function(context){
-        	cc.log(context);
-        });*/
-        //this.attr('size', [800, 480]);
-        
-        //this.attr('xy', [100, 100]);
-        //this.attr('background', '#f00');
-        
-        //cc.log(this.getBoundingBox().height)
-        
-        /*this.delegate(bird, {
-        	click: function(event, target, layer){
-        		//cc.log(event);
-        		//layer.pauseEvent();
-                var scene = new TestPageViewScene();
-                cc.director.pushScene(scene);
-        	},
-        	'mouseenter, mouseleave': function(event, target, layer){
-        		cc.log(event.type);
-        	},
-        });      
-        //this.undelegate(bird, 'mouseenter');
-        //cc.log(this.sprite.setGLProgram);
-        cc.gray(this.sprite);
-        cc.ungray(this.sprite);
-        //cc.gray(closeBtn);
-        //cc.log(closeBtn.getPosition().y)
-        //cc.log(cc.ScrollView);*/
-        
-        //cc.Audio.playEffect('res/ready.mp3');
-        //cc.Audio.playMusic('res/game_music.mp3');
-        
-        /*cc.native.call('getDeviceInfo').then(function(res){
-        	cc.log(JSON.stringify(res));
-        })['catch'](function(err){
-        	cc.log(err);
-        });*/
-        
-        //cc.log(cc.loader.load);
-        
-        //cc.log(cc.LoaderScene._instance.initWith);
-        
-        /*for(var i = 0; i < 10; i++){
-        	var bird = cc.createSprite('bird3.png',{
-        		anchorX: 0,
-        		x: 100 + i*20,
-        		y: 200,
-        		fontSize: 44,
-        		fontFamily: 'Arial',
-        		//texture1: 'bird3.png rect(0,0,10,10)'
-        		//color: '#ff0000',
-        	});    
-        	this.addChildToBatch(bird, 'res/birds.png');
-        	
-        	var bird = cc.createSprite('res/bird2.png',{
-        		anchorX: 0,
-        		x: 100 + i*20,
-        		y: 200 + 50,
-        		fontSize: 44,
-        		fontFamily: 'Arial',
-        		//texture1: 'bird3.png rect(0,0,10,10)'
-        		//color: '#ff0000',
-        	});
-        	//this.addChild(bird);
-        	this.addChildToBatch(bird, 'res/bird2.png');
-        }*/
         
         /*var clipper = cc.ClippingNode.create();
         clipper.attr({
