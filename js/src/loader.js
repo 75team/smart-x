@@ -23,6 +23,21 @@
 				});
 				this.addChild(per);
 				
+				this.per = per;
+				this.selector = selector;
+				this.resources = _resources;
+				this.target = target;
+				
+				return true;
+			},
+			onEnter: function(){
+				this._super();
+
+				var per = this.per;
+				var selector = this.selector;
+				var _resources = this.resources;
+				var target = this.target;
+
 				cc.loader.load(_resources, 
 					function(result, count){ 
 						var percent = Math.round(100 * count / _resources.length);
@@ -33,9 +48,7 @@
 						if(selector){
 							selector.call(target);
 						}
-					});
-				
-				return true;
+					});				
 			}
 		});
 		
@@ -47,11 +60,10 @@
 		});
 		
 		cc.LoaderScene.preload = function (resources, selector, target) {
-			if (!this._instance) {
-				this._instance = new cc.LoaderScene();
-			}
-			this._instance.initWith(resources, selector, target);
-			return this._instance;
+			var loaderScene = new cc.LoaderScene();
+			loaderScene.initWith(resources, selector, target);
+
+			cc.director.runScene(loaderScene);
 		}
 	}
 	

@@ -14,12 +14,6 @@
 			this.__contextDefer = cc.Defer.create();
 		}
 		
-		var size = this.attr('size');
-		if(size.width == 0 && size.height == 0){
-			//修复CCLayer没有宽高的bug
-			this.attr('size', cc.director.getWinSize());
-		}
-		
 		var self = this;
 		if(!this.__initedKeyback && this.backClicked){
 			this.__initedKeyback = true;
@@ -130,9 +124,6 @@
 			this.addChild(colorLayer, -1);			
 		}else{
 			var size = this.attr('size');
-			if(size.width == 0 && size.height == 0){
-				size = cc.director.getWinSize();
-			}
 			var sprite = cc.createSprite(colorOrImg, {
 				xy: [size.width/2, size.height/2],
 				zIndex: -1
@@ -294,19 +285,15 @@
 				self.__beginTouchPoint = touch.getLocation();
 				
 				var locationInNode = self.convertToNodeSpace(self.__beginTouchPoint);
-				if(size.width > 0 || size.height > 0){
-					if(!cc.rectContainsPoint(cc.rect(0, 0, size.width, size.height)
-							, locationInNode)){
-						return false;
-					}						
-				}
+				if(!cc.rectContainsPoint(cc.rect(0, 0, size.width, size.height)
+						, locationInNode)){
+					return false;
+				}						
+				
 				return delegateEvent(self, touch, 'touchstart');
 			},
 			onTouchMoved: function (touch, event) {
 				var size = self.attr('size'); 
-				if(size.width == 0 && size.height == 0){
-					size = cc.director.getWinSize();
-				}
 				var location = touch.getLocation();
 				var delta = cc.p(location.x - self.__beginTouchPoint.x,
 						location.y - self.__beginTouchPoint.y);

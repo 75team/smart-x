@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>CocosJSGame</name>
+	<name>jsTest2</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -44,7 +44,7 @@
 		<link>
 			<name>Classes</name>
 			<type>2</type>
-			<locationURI>COCOS2DX/projects/CocosJSGame/Classes</locationURI>
+			<locationURI>COCOS2DX/projects/jsTest2/Classes</locationURI>
 		</link>
 		<link>
 			<name>cocos2dx</name>
@@ -57,14 +57,14 @@
 			<locationURI>COCOS2DX/extensions</locationURI>
 		</link>
 		<link>
+			<name>jsjavabridge</name>
+			<type>2</type>
+			<locationURI>js-bindings/bindings/manual/platform/android/java/src</locationURI>
+		</link>
+		<link>
 			<name>scripting</name>
 			<type>2</type>
 			<locationURI>COCOS2DX/scripting</locationURI>
-		</link>
-		<link>
-			<name>jsjavabridge</name>
-			<type>2</type>
-			<location>../../js-bindings/bindings/manual/platform/android/java/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

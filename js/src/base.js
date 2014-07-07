@@ -247,14 +247,6 @@
 		return colorPattern.test(colorStr);
 	};
 	
-	if(!isHtml5){
-		var _color = cc.color;
-		cc.color = function(){
-			var color = _color.apply(cc, arguments);
-			if(color.a == null) color.a = 255;
-			return color;
-		}
-	}
 	var _hexToColor = cc.hexToColor;
 	cc.hexToColor = function(str){
 		str = str.trim();
@@ -274,11 +266,7 @@
 		}else{
 			str = namedMap[str];
 		}
-		var ret = _hexToColor(str);
-		if(null == ret.a){
-			ret.a = 255;
-		}
-		return ret;
+		return _hexToColor(str);
 	}
 	
 	cc.fontFamily = {

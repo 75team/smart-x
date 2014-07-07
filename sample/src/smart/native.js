@@ -66,7 +66,6 @@
 		//setTimeout(function(){
 		//解决某些手机上切换activity会闪动画面的问题
 		
-		cc.log(JSON.stringify(data))
 		cc.postMessage(JSON.stringify(data));
 		
 		//if(acts && acts.length){
