@@ -1,5 +1,5 @@
 # 快速上手
 
-## 1. 配置环境
+## 配置环境
 
----
+安装 [android SDK](http://developer.android.com/sdk/index.html)
