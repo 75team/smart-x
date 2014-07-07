@@ -1,0 +1,47 @@
+{
+    "project_type": "javascript",
+
+    "debugMode" : 1,
+    "showFPS" : true,
+    "frameRate" : 60,
+    "id" : "gameCanvas",
+    "renderMode" : 0,
+    "engineDir":"frameworks/cocos2d-html5",
+
+    "modules" : [
+        "cocos2d",
+        "gui"
+    ],
+
+    "jsList" : [
+        "src/smart/promise.js",
+        "src/smart/events.js",
+        "src/smart/base.js",
+        "src/smart/loader.js",
+        "src/smart/native.js",
+        "src/smart/data.js",
+        "src/smart/shaders.js",
+        "src/smart/button.js",
+        "src/smart/audio.js",
+        "src/smart/animation.js",
+        "src/smart/layer.js",
+        "src/smart/scene.js",
+        "src/smart/tile.js",
+        "src/smart/scroll.js",
+        
+        "src/resource.js",
+        "src/app.js",
+        
+        "src/tests/common.js",
+        "src/tests/hello_world.js",
+        "src/tests/test_action.js",
+        "src/tests/test_events.js",
+        "src/tests/test_batching.js",
+        "src/tests/test_buttons.js",
+        "src/tests/test_audio.js",
+        "src/tests/test_label.js",
+        "src/tests/test_store.js",
+        "src/tests/test_tilemap.js",
+        "src/tests/test_pageview.js"
+    ]
+}
