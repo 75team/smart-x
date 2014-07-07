@@ -11,7 +11,7 @@
 python setup.py 
 ```
 
-* clone 本项目，将templates目录中的内容 copy 到 cocos2d-js/templates 目录下
+* [clone 本项目](https://github.com/akira-cn/smart-x)，将templates目录中的内容 copy 到 cocos2d-js/templates 目录下
 
 * 使用 [cocos 命令](http://www.cocos2d-x.org/wiki/Cocos2d-console) 创建项目
 ```bash
