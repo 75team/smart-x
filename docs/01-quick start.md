@@ -16,3 +16,5 @@ python setup.py
 ```bash
 cocos new -l js MyGame
 ```
+
+将项目运行起来
