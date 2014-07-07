@@ -586,8 +586,6 @@
 		return mask;
 	}
 	
-	cc.KEY = cc.KEY || {};
-	cc.KEY.back = 6;
 	cc.mixin(cc.game, new cc.EventEmitter);
 	cc.eventManager.addCustomListener(cc.game.EVENT_HIDE, function(){
 		cc.game.emit('hide');
