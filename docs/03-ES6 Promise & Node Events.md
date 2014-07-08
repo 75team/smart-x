@@ -35,7 +35,7 @@ p().then(function(res){
 
 ## Node Events
 
-支持标准的node.js的events
+支持标准的 node.js 的 [events](http://nodejs.org/api/events.html)
 
 ```js
 var emitter = cc.EventEmitter.create();
