@@ -25,11 +25,26 @@ function p(){
      var deferred = cc.Defer.create();
 
     dosth async...
-    deferred.resolve();
+    
+    return deferred.promise;
 }
 p().then(function(res){
     ....
 });
 ```
+
+## Node Events
+
+支持标准的node.js的events
+
+```js
+var emitter = cc.EventEmitter.create();
+emitter.emit('my_event', args);
+emitter.on('my_event', function(args){
+    ......
+});
+```
+
+
 
 
