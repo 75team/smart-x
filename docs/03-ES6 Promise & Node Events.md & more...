@@ -1,4 +1,4 @@
-# ES5 Promise & Node events
+# ES5 Promise & Node events & more...
 
 ## ES5 Promise
 
@@ -44,6 +44,8 @@ emitter.on('my_event', function(args){
     ......
 });
 ```
+
+## 一些基础方法
 
 
 
