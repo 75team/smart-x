@@ -7,7 +7,7 @@
         "\\.html?$"            : "html",
         ".*"                   : "text"     
     },
-    "template"  : "pithiness",
+    "template"  : "greyshade",
     "comment"  : "on",
     "order"  : "number"
 }
