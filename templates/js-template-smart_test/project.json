@@ -30,9 +30,10 @@
         "src/smart/scroll.js",
         
         "src/resource.js",
-        "src/app.js",
         
         "src/tests/common.js",
+        "src/app.js",
+
         "src/tests/hello_world.js",
         "src/tests/test_action.js",
         "src/tests/test_events.js",
