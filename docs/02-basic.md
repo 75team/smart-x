@@ -2,7 +2,7 @@
 
 ## 官方文档
 
-[官方文档](http://cocos2d-x.org/docs/catalog/framework/html5/zh)
+[cocos2d-js 官方文档](http://cocos2d-x.org/docs/catalog/framework/html5/zh)
 
 ## smart-x 与原生cocos2d-js 3.0 api的不同之处
 
