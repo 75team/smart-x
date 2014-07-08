@@ -6,7 +6,7 @@
 
 ## smart-x 与原生cocos2d-js 3.0 api的不同之处
 
-1. ES5 Promise、Node Events
+1. ES5 Promise、Node Events、一些基础方法
 1. Scene 和 Layer 上下文及增强
 1. 增强的Node、Sprite创建和属性设置
 1. 改进的动画 api
