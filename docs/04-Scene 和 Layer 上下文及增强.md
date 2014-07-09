@@ -25,6 +25,9 @@
   参见 Layer 的 getExtras
   
 ## Layer 的增强
+1. layer.setTimeout、layer.setInterval
+
+  上下文相关的 timer，会随着layer的退出（onExit）而自动停止
 
 1. layer.registerDelegator、 layer.delegate
    
