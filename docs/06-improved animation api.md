@@ -37,24 +37,24 @@
   
   ```js
   var flapping = false;
-	var birdFlapping = cc.AnimationFragement.create()
+  var birdFlapping = cc.AnimationFragement.create()
 						.moveBy(0.5, cc.p(0, 30), cc.EaseOut, 2)
 						.reverse()
 						.spawn()
 						.rotateBy(0.5, -30)
 						.reverse();
 			
-	//Action必须要retain，不然的话异步得不到
-	this.retainTarget(birdFlapping.getAction());
+  //Action必须要retain，不然的话异步得不到
+  this.retainTarget(birdFlapping.getAction());
 			
-	var self = this;
+  var self = this;
 			
-	this.delegate(this,'click',function(){	
-		if(!flapping){
-			flapping = true;
-			bird.play(birdFlapping).then(function(){
-				flapping = false;
-			}).act();
-		}
-	});
+  this.delegate(this,'click',function(){	
+    if(!flapping){
+      flapping = true;
+      bird.play(birdFlapping).then(function(){
+        flapping = false;
+      }).act();
+    }
+  });
   ```
