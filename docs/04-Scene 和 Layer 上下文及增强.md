@@ -31,7 +31,7 @@
 
 1. layer.registerDelegator、 layer.delegate
    
-  事件机制，参见[改进的事件处理机制]
+  事件机制，参见[改进的事件处理机制](http://smart-x.akira-cn.gitpress.org/~docs/07-improved%20event%20model.md)
 
 1. layer.getExtras
   
