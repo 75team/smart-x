@@ -2,6 +2,43 @@
 	var _onEnter = cc.Layer.prototype.onEnter;
 	var _onExit = cc.Layer.prototype.onExit;
 	
+	var timers = [null];
+	function setTimer(target, callback, interval, repeat, delay, paused) {
+		if(isHtml5){
+			setTimeout(function(){
+				cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
+			}, 0);
+		}else{
+			cc.director.getScheduler().unscheduleCallbackForTarget(target, callback);
+			cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
+		}
+		timers.push(callback);
+		return timers.length - 1
+	}
+	function clearTimer(target, id) {
+		var callback = timers[id];
+		if (callback != null) {
+			cc.director.getScheduler().unscheduleCallbackForTarget(target, callback);
+			timers[id] = null;
+		}
+	}
+	function clearAllTimers(target){
+		cc.director.getScheduler().unscheduleAllCallbacksForTarget(target);
+	}
+	
+	cc.Layer.prototype.setTimeout = function (callback, interval) {
+		return setTimer(this||global, callback, interval||0, 0, 0, false);
+	};
+	cc.Layer.prototype.setInterval = function (callback, interval) {
+		return setTimer(this||global, callback, interval||0, cc.REPEAT_FOREVER, 0, false);
+	};
+	cc.Layer.prototype.clearAllTimers = function(){
+		return clearAllTimers(this||global);
+	};
+	cc.Layer.prototype.clearInterval = cc.Layer.prototype.clearTimeout = function (id) {
+		return clearTimer(this||global, id);
+	};
+
 	cc.Layer.prototype.getContext = function(){
 		if(!this.__contextDefer){
 			this.__contextDefer = cc.Defer.create();
