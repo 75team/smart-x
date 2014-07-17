@@ -18,13 +18,13 @@
 			sprite.attr(cc.pAdd(loc, offset));
 			this.addChild(sprite);
 		},
-		//node.convertToNodeSpace(location); first
+		//tileLayer.convertToNodeSpace(location); first
 		locationToTile: function(loc) {
 			var scaleX = this.getScaleX(), scaleY = this.getScaleY();
 			var size = this.cellSize;
 
-			var x = 0 | loc.x / (size.width * scaleX),
-			y = 0 | loc.y / (size.height * scaleY);
+			var x = 0 | (loc.x / (size.width * scaleX)),
+			y = 0 | (loc.y / (size.height * scaleY));
 
 			return cc.p(x, y);
 		},

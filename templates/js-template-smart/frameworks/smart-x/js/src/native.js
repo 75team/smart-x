@@ -76,9 +76,9 @@
 		return deferred.promise;
 	};
 
-	if(!cc.isHtml5 && !cc.isIOS){
+	if(!cc.isHtml5){
 		global.open = function(url){
-			if(!/^(http(s)?|file):\/\//.test(url)){
+			if(cc.isAndroid && !/^(http(s)?|file):\/\//.test(url)){
 				url = 'file:///android_asset/' + url;
 			}
 			native.call('open', {url: url});

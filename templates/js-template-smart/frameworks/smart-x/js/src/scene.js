@@ -1,17 +1,6 @@
 (function(global){
 	'use strict';
 	
-	Object.defineProperty(cc.Scene.prototype, 'autoReload', {
-		get: function(){
-			return this.__autoReload;
-		},
-		set: function(autoReload){
-			this.__autoReload = autoReload;
-		},
-		enumerable: true,
-		configurable: false,
-	});
-	
 	cc.Scene.prototype.reload = function(){
 		var myScene = new this.constructor();
 		cc.director.runScene(myScene);		

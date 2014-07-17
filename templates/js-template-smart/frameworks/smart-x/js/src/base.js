@@ -44,43 +44,6 @@
 	if(!cc.isOpenGL){
 		cc.TransitionCrossFade = cc.TransitionFadeBL = cc.TransitionFadeTR = cc.TransitionFade;
 	}
-
-	var timers = [null];
-	function setTimer(target, callback, interval, repeat, delay, paused) {
-		if(isHtml5){
-			setTimeout(function(){
-				cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
-			}, 0);
-		}else{
-			cc.director.getScheduler().unscheduleCallbackForTarget(target, callback);
-			cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
-		}
-		timers.push(callback);
-		return timers.length - 1
-	}
-	function clearTimer(target, id) {
-		var callback = timers[id];
-		if (callback != null) {
-			cc.director.getScheduler().unscheduleCallbackForTarget(target, callback);
-			timers[id] = null;
-		}
-	}
-	function clearAllTimers(target){
-		cc.director.getScheduler().unscheduleAllCallbacksForTarget(target);
-	}
-	
-	cc.Node.prototype.setTimeout = function (callback, interval) {
-		return setTimer(this||global, callback, interval||0, 0, 0, false);
-	};
-	cc.Node.prototype.setInterval = function (callback, interval) {
-		return setTimer(this||global, callback, interval||0, cc.REPEAT_FOREVER, 0, false);
-	};
-	cc.Node.prototype.clearAllTimers = function(){
-		return clearAllTimers(this||global);
-	};
-	cc.Node.prototype.clearInterval = cc.Node.prototype.clearTimeout = function (id) {
-		return clearTimer(this||global, id);
-	};
 	
 	cc.mixin = function(des, src, mixer) {
 		mixer = mixer || function(d, s){
@@ -586,8 +549,6 @@
 		return mask;
 	}
 	
-	cc.KEY = cc.KEY || {};
-	cc.KEY.back = 6;
 	cc.mixin(cc.game, new cc.EventEmitter);
 	cc.eventManager.addCustomListener(cc.game.EVENT_HIDE, function(){
 		cc.game.emit('hide');

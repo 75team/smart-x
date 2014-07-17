@@ -283,4 +283,7 @@
 	};
 	
 	cc.EventEmitter = EventEmitter;
+	cc.EventEmitter.create = function(){
+		return new EventEmitter();
+	}
 })(this);
