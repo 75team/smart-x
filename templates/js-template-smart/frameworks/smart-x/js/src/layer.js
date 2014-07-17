@@ -4,7 +4,7 @@
 	
 	var timers = [null];
 	function setTimer(target, callback, interval, repeat, delay, paused) {
-		if(isHtml5){
+		if(cc.isHtml5){
 			setTimeout(function(){
 				cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
 			}, 0);
@@ -125,11 +125,14 @@
 	
 	cc.Layer.prototype.publish = function(){
 		var args = [].slice.apply(arguments);
-		this.getContext().then(function(context){
+		var self = this;
+		this.getContext().then(function(res){
+			var context = res.context;
 			if(!context.__pubsubEmitter){
 				context.__pubsubEmitter = new cc.EventEmitter();
 			}
-			context.setTimeout(function(){
+			
+			self.setTimeout(function(){
 				context.__pubsubEmitter.emit.apply(context, args);
 			}, 0); 
 		});
@@ -137,7 +140,8 @@
 	
 	cc.Layer.prototype.subscribe = function(){
 		var args = [].slice.apply(arguments);
-		this.getContext().then(function(context){
+		this.getContext().then(function(res){
+			var context = res.context;
 			if(!context.__pubsubEmitter){
 				context.__pubsubEmitter = new cc.EventEmitter();
 			}
@@ -147,7 +151,8 @@
 	
 	cc.Layer.prototype.unsubscribe = function(){
 		var args = [].slice.apply(arguments);
-		this.getContext().then(function(context){
+		this.getContext().then(function(res){
+			var context = res.context;
 			if(!context.__pubsubEmitter){
 				context.__pubsubEmitter = new cc.EventEmitter();
 			}
