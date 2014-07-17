@@ -75,7 +75,7 @@ var testCases = [
 		name: 'Page view',
 		click: function(){
 			var scene = new TestPageViewScene();
-			scene.putExtra('source', 'src/tests/pageview.js');
+			scene.putExtra('source', 'src/tests/test_pageview.js');
 			cc.director.pushScene(scene);
 		}
 	},
