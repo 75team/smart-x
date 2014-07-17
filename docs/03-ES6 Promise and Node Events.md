@@ -1,4 +1,4 @@
-# ES5 Promise & Node events & more...
+# ES5 Promis 和 Node events
 
 ## ES5 Promise
 

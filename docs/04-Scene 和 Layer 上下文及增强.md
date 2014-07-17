@@ -2,7 +2,7 @@
 
 ## Scene 的增强
 
-1. 提供 autoRelease 属性，默认为 false
+1. 提供 autoReload 属性，默认为 false
   
   如果在popScene回到当前场景的时候，希望自动刷新场景，可以将这个属性置为 true
   
@@ -31,7 +31,7 @@
 
 1. layer.registerDelegator、 layer.delegate
    
-  事件机制，参见[改进的事件处理机制]
+  事件机制，参见[改进的事件处理机制](http://smart-x.akira-cn.gitpress.org/~docs/07-improved%20event%20model.md)
 
 1. layer.getExtras
   
