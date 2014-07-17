@@ -77,7 +77,7 @@
 			window.addEventListener('popstate', backClicked);
 		}
 		
-		this.__contextDefer.resolve(cc.director.getRunningScene());
+		this.__contextDefer.resolve({context:cc.director.getRunningScene()});
 		return _onEnter.apply(this, arguments);
 	};
 	
