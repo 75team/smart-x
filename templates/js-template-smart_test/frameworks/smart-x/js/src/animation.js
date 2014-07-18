@@ -64,7 +64,7 @@
 			var actions;
 			
 			if(actionCls instanceof Animation){
-				actionCls = actionCls.getAction();
+				actionCls = actionCls.getAction().clone();
 			}
 			
 			if(actionCls instanceof cc.Action){
