@@ -138,6 +138,9 @@
 			this.getActionList().push(callback);            
 			return this;
 		},
+		tween: function(dur, prop, from, to, easing, rate){
+			return this.addAction(cc.ActionTween, [dur, prop, from, to], easing, rate);
+		},
 		bezierBy: function(dur, conf, easing, rate){
 			return this.addAction(cc.BezierBy, [dur, conf], easing, rate);
 		},
