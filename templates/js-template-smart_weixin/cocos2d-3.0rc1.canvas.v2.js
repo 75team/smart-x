@@ -212,7 +212,7 @@ cc.loader = {_jsCache: {}, _register: {}, _langPathCache: {}, _aliases: {}, resP
             cc.newElement("img");
         if (cc._loadingImage)jsLoadingImg.src = cc._loadingImage;
         var canvasNode = d.getElementById(cc.game.config["id"]);
-        canvasNode.style.backgroundColor = "white";
+        canvasNode.style.backgroundColor = "transparent";
         canvasNode.parentNode.appendChild(jsLoadingImg);
         var canvasStyle = getComputedStyle ? getComputedStyle(canvasNode) : canvasNode.currentStyle;
         if (!canvasStyle)canvasStyle = {width: canvasNode.width, height: canvasNode.height};
@@ -4602,7 +4602,7 @@ cc.LoaderScene = cc.Scene.extend({_interval: null, _length: 0, _count: 0, _label
     var self = this;
     var logoWidth = 160;
     var logoHeight = 200;
-    var bgLayer = self._bgLayer = cc.LayerColor.create(cc.color(255, 255, 255, 255));
+    var bgLayer = self._bgLayer = cc.LayerColor.create(cc.color(255, 255, 255, 1));
     bgLayer.setPosition(cc.visibleRect.bottomLeft);
     self.addChild(bgLayer, 0);
     var fontSize = 24, lblHeight = -logoHeight / 2 + 100;

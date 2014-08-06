@@ -25,17 +25,13 @@
                   cc.view.resizeWithBrowserSize(true);
                   cc.director.setDisplayStats(cc.game.config.showFPS);
                   //load resources
-                  cc._loaderImage = "http://bimg.shouyoutu.com/c5d933b7c19bb5fb.jpg";
+                  //cc._loaderImage = "";
                   cc.LoaderScene.preload(["res/HelloWorld.png"], function () {
                       cc.director.runScene(new HelloWorldScene());
                   }, this);
               };
               cc.game.run("gameCanvas");
           };
-    </script>
-    <script type="text/javascript">
-    var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
-    document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Ffdab8b2ff50a69558f14b7ea4d7d5379' type='text/javascript'%3E%3C/script%3E"));
     </script>
 </body>
 </html>

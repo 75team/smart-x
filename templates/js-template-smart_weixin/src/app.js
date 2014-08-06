@@ -5,7 +5,9 @@ var HelloWorldLayer = cc.Layer.extend({
         var size = cc.director.getWinSize();
         var self = this;
 
-        var closeBtn = new cc.Button.create(res.CloseNormal_png);
+        this.setBackground('#000');
+        
+        var closeBtn = new cc.Button.create('res/CloseNormal.png');
         closeBtn.attr({
             x: size.width - 20,
             y: 20,
@@ -29,7 +31,7 @@ var HelloWorldLayer = cc.Layer.extend({
         var lazyLayer = cc.Layer.create();
         this.addChild(lazyLayer);
 
-        this.sprite = cc.Sprite.create(res.HelloWorld_png);
+        this.sprite = cc.Sprite.create('res/HelloWorld.png');
         this.sprite.attr({
             x: size.width / 2,
             y: size.height / 2,
