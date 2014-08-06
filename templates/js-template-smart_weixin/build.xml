@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="Javascript compress project" basedir="." default="compile">
+
+    <taskdef name="jscomp" classname="com.google.javascript.jscomp.ant.CompileTask"
+             classpath="tools/compiler/compiler.jar"/>
+
+    <target name="compile">
+        <jscomp compilationLevel="simple" warning="quiet"
+                debug="false" output="game.min.js" languageIn="ECMASCRIPT5">
+            <sources dir="${basedir}">
+                <file name="src/smart/promise.js"/>
+                <file name="src/smart/events.js"/>
+                <file name="src/smart/base.js"/>
+                <file name="src/smart/native.js"/>
+                <file name="src/smart/data.js"/>
+                <file name="src/smart/shaders.js"/>
+                <file name="src/smart/button.js"/>
+                <file name="src/smart/animation.js"/>
+                <file name="src/smart/layer.js"/>
+                <file name="src/smart/scene.js"/>
+                <file name="src/smart/tile.js"/>
+            </sources>
+        </jscomp>
+    </target>
+</project>

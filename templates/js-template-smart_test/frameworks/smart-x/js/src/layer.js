@@ -1,10 +1,11 @@
 (function(global){
 	var _onEnter = cc.Layer.prototype.onEnter;
 	var _onExit = cc.Layer.prototype.onExit;
+	var isHtml5 = cc.isHtml5;
 	
 	var timers = [null];
 	function setTimer(target, callback, interval, repeat, delay, paused) {
-		if(cc.isHtml5){
+		if(isHtml5){
 			setTimeout(function(){
 				cc.director.getScheduler().scheduleCallbackForTarget(target, callback, interval / 1000, repeat, delay, paused);
 			}, 0);
@@ -52,7 +53,7 @@
 		}
 		
 		var self = this;
-		if(!this.__initedKeyback && this.backClicked){
+		if(!this.__initedKeyback && this.backClicked && cc._EventListenerKeyboard){
 			this.__initedKeyback = true;
 			cc.eventManager.addListener({
 				event: cc.EventListener.KEYBOARD,
