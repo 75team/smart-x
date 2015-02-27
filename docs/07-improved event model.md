@@ -2,9 +2,9 @@
 
 ## layer的事件代理机制
 
-1. layer.registerDelegator(swallowTouches)
+1. layer.registerDelegator()
 
-  设置 layer 代理事件的方式，缺省为 swallowTouches = true
+  设置 layer 代理事件的方式
 
 2. layer.delegate(node, eventType, eventHandler)
 
@@ -74,6 +74,10 @@
 4. layer.setClickAndMove(clickAndMove)
 
   默认为true， 设置为false的时候，在元素上触发touchMove事件时如果位移大于临界值会取消即将触发的click
+
+5. layer.setSwallowTouches(swallowTouches)
+
+  默认为true，设置为false的时候不吞噬事件，即允许事件依然能被下一层Layer处理
 
 ---
 事件代理目前仅支持TOUCH_ONE_BY_ONE方式，多点触摸请使用cc.eventManager原生的api
