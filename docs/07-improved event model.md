@@ -19,7 +19,7 @@
 			});
 			this.addChild(greenBrick);	
 			
-			this.registerDelegator(false);
+			this.setSwallowTouches(false);
 			
 			var self = this;
 			
