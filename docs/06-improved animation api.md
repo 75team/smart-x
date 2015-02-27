@@ -21,10 +21,10 @@
   ```
   
   ```js
-  sprite.moveBy(0.5, cc.p(100,100)).then(function(){
+  sprite.moveBy(0.5, cc.p(100,100)).do(function(){
     cc.log('moved');
   });
-  //then可以用来在一段动画完成后执行某个动作
+  //do可以用来在一段动画完成后执行某个动作
   ```
   
   ```js
@@ -53,7 +53,7 @@
   this.delegate(this,'click',function(){	
     if(!flapping){
       flapping = true;
-      bird.play(birdFlapping).then(function(){
+      bird.play(birdFlapping).do(function(){
         flapping = false;
       }).act();
     }
