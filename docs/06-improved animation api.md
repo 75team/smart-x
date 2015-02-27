@@ -3,7 +3,7 @@
 ## smart-x 提供了方便的链式动画 api
 
   ```js
-  sprite.moveTo(0.5, cc.p(100, 200), cc.EaseIn, 2).rotateBy(0.5, 90).reverse().repeat().act();
+  sprite.moveTo(0.5, cc.p(100, 200)).easing('easeIn', 2).rotateBy(0.5, 90).reverse().repeat().act();
   //链式中的动画被依次调用， act() 方法来执行
   ```
 
@@ -38,7 +38,8 @@
   ```js
   var flapping = false;
   var birdFlapping = cc.AnimationFragement.create()
-						.moveBy(0.5, cc.p(0, 30), cc.EaseOut, 2)
+						.moveBy(0.5, cc.p(0, 30))
+						.easing('easeOut', 2)
 						.reverse()
 						.spawn()
 						.rotateBy(0.5, -30)
