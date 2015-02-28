@@ -3,7 +3,7 @@
 ## 不同于瓦片地图，smart-x还提供了一个非常简单的瓦片坐标机制
 
 ```js
-      var tileLayer = cc.TileLayer.create(80, 80);
+      var tileLayer = cc.TiledLayer.create(80, 80);
       var bird = cc.createSprite('bird1.png');
       tileLayer.setTileAt(bird, 1, 1);
       
