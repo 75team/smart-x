@@ -13,9 +13,9 @@
 			});
 			
 			this.delegate(musicButton, 'click', function(){
-				cc.Audio.playEffect('res/menu_click.mp3')
+				cc.audioManager.playEffect('res/menu_click.mp3')
 				soundEnabled.music = !soundEnabled.music;
-				cc.Audio.setEnable(soundEnabled);
+				cc.audioManager.setEnable(soundEnabled);
 				soundEnabled.music ? cc.ungray(musicButton) : cc.gray(musicButton);              				
 			});
 			this.addChild(musicButton);
@@ -25,9 +25,9 @@
 			});
 
 			this.delegate(effectButton, 'click', function(){
-				cc.Audio.playEffect('res/menu_click.mp3')
+				cc.audioManager.playEffect('res/menu_click.mp3')
 				soundEnabled.effect = !soundEnabled.effect;
-				cc.Audio.setEnable(soundEnabled);
+				cc.audioManager.setEnable(soundEnabled);
 				soundEnabled.effect ? cc.ungray(effectButton) : cc.gray(effectButton);              				
 			});
 			this.addChild(effectButton);
