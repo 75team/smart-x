@@ -16,7 +16,7 @@
 				cc.audioManager.playEffect('res/menu_click.mp3')
 				soundEnabled.music = !soundEnabled.music;
 				cc.audioManager.setEnable(soundEnabled);
-				soundEnabled.music ? cc.ungray(musicButton) : cc.gray(musicButton);              				
+				soundEnabled.music ? cc.colourize(musicButton) : cc.decolourize(musicButton);              				
 			});
 			this.addChild(musicButton);
 			
@@ -28,7 +28,7 @@
 				cc.audioManager.playEffect('res/menu_click.mp3')
 				soundEnabled.effect = !soundEnabled.effect;
 				cc.audioManager.setEnable(soundEnabled);
-				soundEnabled.effect ? cc.ungray(effectButton) : cc.gray(effectButton);              				
+				soundEnabled.effect ? cc.colourize(effectButton) : cc.decolourize(effectButton);              				
 			});
 			this.addChild(effectButton);
 ```
