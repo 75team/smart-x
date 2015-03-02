@@ -4,7 +4,7 @@
 
 1. 自动场景刷新
   
-  如果在popScene回到当前场景的时候，希望自动刷新场景，可以将这个属性置为 true
+  如果在popScene回到当前场景的时候，希望自动刷新场景，可以使用 this.reload
   
   ```js
 	var HelloWorldScene = cc.Scene.extend({
